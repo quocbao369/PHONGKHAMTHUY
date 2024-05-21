@@ -1,0 +1,39 @@
+﻿.border-left-7 {
+    border-left: 7px solid !important;
+}
+
+.modal-h-9 {
+    height: 90vh;
+}
+
+a.link, body {
+    color: black;
+}
+
+.tab_table {
+    width: 100%;
+    font-size: 13px;
+}
+
+.tab_table print_drugtable border-td2 {
+    width: 100%;
+    font-size: 13px;
+    margin-top: 10px
+}
+.ioc66_foot {
+    width: 100%;
+    font-size: 13px;
+    padding-top:10px;
+}
+.left {
+    width: 65%;
+    float: left;
+}
+.right {
+    width: 35%;
+    float: right;
+    text-align: center;
+}
+.tbl-border tbody tr td {
+    border: 1px solid #baa0a0;
+}

@@ -1,4 +1,4 @@
-﻿@model PHONGKHAMTHUY.Models.AccountModel
+﻿@model PHONGKHAMTHUY.Models.LoginModel
 @{ 
     Layout = null; 
 }
@@ -46,23 +46,19 @@
                                 <img src="~/Public/assets/images/big/logoSignin.jpg" alt="wrapkit" width="100" height="100">
                             </div>
                             <h2 class="mt-3 text-center">Sign In</h2>
-                            @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+                            @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "mt-4" }))
                             {
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <label class="text-dark" for="uname">Username</label>
-                                            <input class="form-control" id="username" name="username" type="text"
-                                                   placeholder="enter your username">
-                                            @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                                            @Html.TextBoxFor(m => m.TENDANGNHAP, new { @class = "form-control", @maxlength = "10", placeholder = "Username" })
+                                            @Html.ValidationMessageFor(m => m.TENDANGNHAP, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <label class="text-dark" for="pwd">Password</label>
-                                            <input class="form-control" id="password" name="password" type="password"
-                                                   placeholder="enter your password">
-                                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                            @Html.PasswordFor(m => m.MATKHAU, new { @class = "form-control", @maxlength = "50", placeholder = "Password" })
+                                            @Html.ValidationMessageFor(m => m.MATKHAU, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col-lg-12 text-center">

@@ -1,0 +1,101 @@
+﻿@model List<PHONGKHAMTHUY.Models.PetModel>
+@{
+    ViewBag.Title = "Đăng kí khám";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Breadcrumb = "Đăng kí khám";
+    ViewBag.PageText = "Đăng kí khám bệnh";
+}
+
+<div class="row">
+    <div class="col-8">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Đăng ký khám bệnh</h4>
+                <br />
+                <form id="form" class="pl-3 pr-3" method="post" action="/MedicalExamination/Index" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group w-50">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Vui lòng nhập mã vật nuôi</h6>
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="text" id="idvatnuoi" maxlength="50" name="IDVATNUOI" required>
+                            </div>
+
+                            <div class="form-group w-75">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Lý do khám</h6>
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="text" id="lydo" maxlength="50" name="LYDO" required>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6">
+
+                                    <div class="form-group">
+                                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Chọn thời gian khám</h6>
+                                        <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                               type="datetime-local" id="thoigiankham" maxlength="50" name="THOIGIANKHAM" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+
+                                    <div class="form-group">
+                                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Lựa chọn Bác sĩ</h6>
+                                        <select class="custom-select mr-sm-2 border-primary border-top-0 border-right-0 border-left-0 text-dark"
+                                                id="idbacsi" name="IDBACSI" required>
+                                            @foreach (var item in ViewBag.Doctors)
+                                            {
+                                                <option value="@item.Value">@item.Text</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group w-35">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Trạng thái</h6>
+                                <select class="custom-select mr-sm-2 border-primary border-top-0 border-right-0 border-left-0 text-dark"
+                                        id="trangthai" name="TRANGTHAI" required>
+                                    <option value="1">Xác nhận khám</option>
+                                    <option value="2">Chờ xác nhận khám</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-12 text-center">
+                        <button type="submit" class="btn btn-primary justify-content-center">Xác nhận đăng ký</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Danh sách vật nuôi</h4>
+                <div id="table_customer" class="table-responsive">
+                    <table id="zero_config" class="table table-sm mb-0">
+                        <thead>
+                            <tr>
+                                <th>Tên vật nuôi</th>
+                                <th>Chủ sỡ hữu</th>
+                                <th>Mã vật nuôi</th>
+                        </thead>
+                        <tbody>
+                            @foreach (var pet in Model)
+                            {
+                                <tr>
+                                    <td>@pet.TEN</td>
+                                    <td>@pet.TENKHACHHANG</td>
+                                    <td>@pet.IDVATNUOI<i style="cursor: pointer; margin-left: 20px;" class="far fa-copy" onclick="copyText(this)"></i></td>
+                                </tr>
+                            }
+                         </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,174 @@
+﻿@model List<PHONGKHAMTHUY.Domain.TAIKHOAN>
+@{
+    ViewBag.Title = "Setting";
+    ViewBag.Breadcrumb = "Tài khoản đang nhập";
+    ViewBag.PageText = "Tài khoản đang nhập";
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row justify-content-between">
+                    <h4 class="card-title">Tài khoản đăng nhập</h4>
+                    <button onclick="addUser('add')" id="addUser" class="btn btn-primary btn-lg rounded-circle"
+                            data-toggle="tooltip" data-placement="top" title="Thêm mới">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <h6 class="card-title mt-3">
+                </h6>
+                <div class="table-responsive">
+                    <table id="zero_config" class="table table-striped table-bordered no-wrap">
+                        <thead>
+                            <tr>
+                                <th>TÊN TÀI KHOẢN</th>
+                                <th>HỌ TÊN </th>
+                                <th>NHÓM NGƯỜI DÙNG</th>
+                                <th>SỬA</th>
+                                <th>XÓA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var account in Model)
+                            {
+                                <tr>
+                                    <td>@account.TENDANGNHAP</td>
+                                    <td>@account.HOTEN</td>
+                                    <td>@ViewBag.GroupNames[account.IDNHOMNGUOIDUNG]</td>
+                                    <td align="center"><a href="" onclick="getInforAccount(@account.IDTAIKHOAN)" class="edit-account" data-id="@account.IDTAIKHOAN" data-toggle="modal" data-target="#modal-edit"><i class="far fa-edit"></i></a></td>
+                                    <td align="center"><a href="@Url.Action("deleteAccount", "Setting",new { id = account.IDTAIKHOAN })"><i class="fas fa-trash-alt"></i></a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal sửa tài khoản -->
+<div id="modal-edit" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+        <div class="modal-content modal-h-9">
+            <div class="modal-header modal-colored-header bg-primary">
+                <h4 class="modal-title" id="primary-header-modalLabel">
+                    Tài khoản đăng nhập
+                </h4>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body p-4">
+                <form id="form" class="pl-3 pr-3" method="post" action="/Setting/LoginAccount" enctype="multipart/form-data">
+                    <div class="card">
+                        <div class="card-header font-weight-bold w-30 m-3 bg-info text-white ml" style="border-radius: 10px; margin-left: -10px !important;">
+                            Thông tin đăng nhập
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group w-50">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Nhóm người dùng</h6>
+                                <select class="custom-select mr-sm-2 border-primary border-top-0 border-right-0 border-left-0 text-dark"
+                                        id="nhomnguoidung" name="IDNHOMNGUOIDUNG">
+                                    <option value="0">Lựa chọn</option>
+                                    <option value="1">Admin</option>
+                                    <option value="2">Bác sĩ</option>
+                                    <option value="3">Thu ngân</option>
+                                </select>
+                                <input name="IDTAIKHOAN" type="hidden" id="idtaikhoan">
+                            </div>
+
+                            <div class="form-group w-50">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Tên đăng nhập</h6>
+                                <input class="form-control font-weight-bold border-0"
+                                       type="text" id="tentaikhoan" maxlength="10" readonly>
+                                <input class="form-control font-weight-bold border-primary border-top-0 border-right-0 border-left-0"
+                                       type="text" id="user" maxlength="10" name="TENDANGNHAP">
+                            </div>
+
+                            <div class="form-group w-50">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Mật khẩu</h6>
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="password" id="matkhau" maxlength="50"
+                                       placeholder="Vui lòng nhập mật khẩu" required name="MATKHAU">
+                                <small class="form-text text-muted">Nhập tối đa 50 ký tự.</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header font-weight-bold w-30 m-3 bg-info text-white ml" style="border-radius: 10px; margin-left: -10px !important;">
+                            Hồ sơ
+                        </div>
+                        <div class="card-body">
+
+                            <div class="form-group ">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Họ tên</h6>
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="text" id="hoten" maxlength="50" required name="HOTEN">
+                            </div>
+
+                            <div class="form-group ">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Điện thoại</h6>
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="number" id="dienthoai" maxlength="10" required name="DIENTHOAI">
+                            </div>
+
+                            <div class="form-group w-25">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Giới tính</h6>
+                                <select class="custom-select mr-sm-2 border-primary border-top-0 border-right-0 border-left-0 text-dark"
+                                        id="gioitinh" required name="GIOITINH">
+                                    <option value="">Lựa chọn</option>
+                                    <option value="1">Nam</option>
+                                    <option value="2">Nữ</option>
+                                    <option value="3">Khác</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group ">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Email</h6>
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="text" id="email" maxlength="50" required name="EMAIL">
+                            </div>
+
+                            <div class="form-group ">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Hình đại diên</h6>
+                                <input onchange="showImage()" class="form-control-file m-2" type="file" id="anhdaidien" accept="image/*" name="HINHDAIDIEN">
+                                <img id="avatar-preview" class="img-fluid" src="" alt="Ảnh đại diện" width="100" height="100">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" id="MSTTK">
+                        <div class="card-header font-weight-bold w-30 m-3 bg-info text-white ml" style="border-radius: 10px; margin-left: -10px !important;">
+                            Một số thông tin khác
+                        </div>
+                        <div class="card-body">
+
+                            <div class="form-group ">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Ngày tạo</h6>
+                                <label id="ngaytao" class="font-weight-bold m-3"></label>
+                            </div>
+
+                            <div class="form-group ">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Ngày sửa gần nhất</h6>
+                                <label id="ngaysua" class="font-weight-bold m-3"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="actionModal" type="submit" class="btn btn-primary d-none"></button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="clickSuscess()">Xác nhận</button>
+                <button type="button" class="btn waves-effect waves-light btn-light" data-dismiss="modal">Hủy</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- Alert -->

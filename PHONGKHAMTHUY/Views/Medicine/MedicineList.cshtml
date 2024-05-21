@@ -1,0 +1,308 @@
+﻿@model List<PHONGKHAMTHUY.Models.MedicineModel>
+@{
+    ViewBag.Title = "MedicineList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Breadcrumb = "Danh sách thuốc và vật tư";
+    ViewBag.PageText = "Thuốc và vật tư";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row justify-content-between">
+                    <h4 class="card-title">Thuốc và vật tư</h4>
+                    <button data-toggle="modal" data-target="#modal-add" id="addMedicine" class="btn btn-primary btn-lg rounded-circle">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <h6 class="card-title mt-3">
+                </h6>
+                <div class="table-responsive">
+                    <table id="zero_config" class="table table-striped table-bordered no-wrap">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>TÊN THUỐC VÀ VẬT TƯ</th>
+                                <th>ĐƠN VỊ</th>
+                                <th>GIÁ BÁN</th>
+                                <th>TỒN KHO</th>
+                                <th>QUY CÁCH</th>
+                                <th>DANH MỤC</th>
+                                <th>SỬA</th>
+                                <th>XÓA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var mdc in Model)
+                            {
+                                <tr>
+                                    <td>@mdc.IDTHUOCVT</td>
+                                    <td>@mdc.TENTHUOCVT</td>
+                                    <td>@mdc.DONVI</td>
+                                    <td>@mdc.GIABAN đồng</td>
+                                    <td>@mdc.TONKHO</td>
+                                    <td>@mdc.QUYCACH</td>
+                                    <td>@mdc.TENDANHMUC</td>
+                                    <td>
+                                        <a href="" onclick="showDataMedicine(@mdc.IDTHUOCVT)"
+                                           class="edit-account" data-id="@mdc.IDTHUOCVT" data-toggle="modal" data-target="#modal-edit"><i class="far fa-edit"></i></a>
+                                    </td>
+                                    <td align="center"><a href="@Url.Action("Delete", "Medicine",new { id = mdc.IDTHUOCVT })"><i class="fas fa-trash-alt"></i></a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="modal-add" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+        <div class="modal-content modal-h-9">
+            <div class="modal-header modal-colored-header bg-primary">
+                <h4 class="modal-title font-weight-bold" id="primary-header-modalLabel">
+                    Thêm mới thuốc và vật tư
+                </h4>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body p-4">
+                <form id="form" class="pl-3 pr-3" method="post" action="/Medicine/Add" enctype="multipart/form-data">
+
+                    <div class="card">
+                        <div class="card-header font-weight-bold w-30 m-3 bg-info text-white ml" style="border-radius: 10px; margin-left: -10px !important;">
+                            Thông tin thuốc
+                        </div>
+                        <div class="card-body">
+
+                            <div class="form-group">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Tên thuốc và vật tư</h6>
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="text" id="tenthuocvt" maxlength="50" name="TENTHUOCVT" required>
+                            </div>
+
+                            <div class="form-group w-35">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Danh mục</h6>
+                                <select class="custom-select mr-sm-2 border-primary border-top-0 border-right-0 border-left-0 text-dark"
+                                        id="iddanhmuc" name="IDDANHMUC" required>
+                                    <option value="">Lựa chọn</option>
+                                    @foreach (var item in ViewBag.DanhMucs)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="form-group w-30">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Đơn vị</h6>
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="text" id="donvi" maxlength="50" name="DONVI" required>
+                            </div>
+
+                            <div class="form-group w-25">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Quy cách</h6>
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="text" id="quycach" maxlength="50" name="QUYCACH" required>
+                            </div>
+
+                            <div class="form-group w-25">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Giá bán (đồng)</h6>
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="number" id="giaban" maxlength="50" name="GIABAN" required>
+                            </div>
+
+                            <div class="form-group w-25">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Giá nhập (đồng)</h6>
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="number" id="gianhap" maxlength="50" name="GIANHAP" required>
+                            </div>
+
+                            <div class="form-group w-50">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Cách dùng</h6>
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="text" id="cachdung" maxlength="50" name="CACHDUNG" required>
+                            </div>
+
+                            <div class="form-group w-25">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Số lượng / ngày</h6>
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="text" id="soluongtrenngay" maxlength="50" name="SOLUONGTRENNGAY" required>
+                            </div>
+                            <div class="form-group">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Thành phần</h6>
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="text" id="thanhphan" maxlength="50" name="THANHPHAN" required>
+                            </div>
+
+                            <div class="form-group w-30">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Hạn sử dụng</h6>
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="date" id="hsd" maxlength="50" name="HSD" required>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header font-weight-bold w-30 m-3 bg-info text-white ml" style="border-radius: 10px; margin-left: -10px !important;">
+                            Ghi chú
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="text" id="ghichu" maxlength="50" name="GHICHU" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="btnAdd" type="submit" class="btn btn-primary d-none"></button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="clickAdd()">Xác nhận</button>
+                <button type="button" class="btn waves-effect waves-light btn-light" data-dismiss="modal">Hủy</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div id="modal-edit" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+        <div class="modal-content modal-h-9">
+            <div class="modal-header modal-colored-header bg-primary">
+                <h4 class="modal-title font-weight-bold" id="primary-header-modalLabel">
+                    Cập nhật thuốc và vật tư
+                </h4>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body p-4">
+                <form id="form" class="pl-3 pr-3" method="post" action="/Medicine/Update" enctype="multipart/form-data">
+                    <input name="IDTHUOCVT" type="hidden" id="idthuocvt">
+
+                    <div class="card">
+                        <div class="card-header font-weight-bold w-30 m-3 bg-info text-white ml" style="border-radius: 10px; margin-left: -10px !important;">
+                            Thông tin thuốc
+                        </div>
+                        <div class="card-body">
+
+                            <div class="form-group">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Tên thuốc và vật tư</h6>
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="text" id="tenthuocvt" maxlength="50" name="TENTHUOCVT" required>
+                            </div>
+
+                            <div class="form-group w-35">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Danh mục</h6>
+                                <select class="custom-select mr-sm-2 border-primary border-top-0 border-right-0 border-left-0 text-dark"
+                                        id="iddanhmuc" name="IDDANHMUC" required>
+                                    <option value="">Lựa chọn</option>
+                                    @foreach (var item in ViewBag.DanhMucs)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="form-group w-30">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Đơn vị</h6>
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="text" id="donvi" maxlength="50" name="DONVI" required>
+                            </div>
+
+                            <div class="form-group w-25">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Quy cách</h6>
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="text" id="quycach" maxlength="50" name="QUYCACH" required>
+                            </div>
+
+                            <div class="form-group w-25">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Giá bán (đồng)</h6>
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="number" id="giaban" maxlength="50" name="GIABAN" required>
+                            </div>
+
+                            <div class="form-group w-25">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Giá nhập (đồng)</h6>
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="number" id="gianhap" maxlength="50" name="GIANHAP" required>
+                            </div>
+
+                            <div class="form-group w-50">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Cách dùng</h6>
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="text" id="cachdung" maxlength="50" name="CACHDUNG" required>
+                            </div>
+
+                            <div class="form-group w-25">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Số lượng / ngày</h6>
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="text" id="soluongtrenngay" maxlength="50" name="SOLUONGTRENNGAY" required>
+                            </div>
+
+                            <div class="form-group">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Thành phần</h6>
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="text" id="thanhphan" maxlength="50" name="THANHPHAN" required>
+                            </div>
+
+                            <div class="form-group w-30">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Hạn sử dụng</h6>
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="date" id="hsd" maxlength="50" name="HSD" required>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header font-weight-bold w-30 m-3 bg-info text-white ml" style="border-radius: 10px; margin-left: -10px !important;">
+                            Ghi chú
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="text" id="ghichu" maxlength="50" name="GHICHU" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" id="MSTTK">
+                        <div class="card-header font-weight-bold w-30 m-3 bg-info text-white ml" style="border-radius: 10px; margin-left: -10px !important;">
+                            Một số thông tin khác
+                        </div>
+                        <div class="card-body">
+
+                            <div class="form-group ">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Ngày tạo</h6>
+                                <label id="ngaytao" class="font-weight-bold m-3"></label>
+                            </div>
+
+                            <div class="form-group ">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Ngày sửa gần nhất</h6>
+                                <label id="ngaysua" class="font-weight-bold m-3"></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="actionModal" type="submit" class="btn btn-primary d-none"></button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="clickSuscess()">Xác nhận</button>
+                <button type="button" class="btn waves-effect waves-light btn-light" data-dismiss="modal">Hủy</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

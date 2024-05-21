@@ -1,0 +1,181 @@
+﻿@model List<PHONGKHAMTHUY.Models.ListOfAppointmentsModel>
+@{
+    ViewBag.Title = "Lịch khám hôm nay";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Breadcrumb = "Lịch khám hôm nay";
+    ViewBag.PageText = "Hôm nay";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row justify-content-between">
+                    <h4 class="card-title">Lịch khám hôm nay</h4>
+                    <h6 class="card-title mt-5"></h6>
+                    <div class="table-responsive">
+                        <table id="zero_config" class="table table-striped table-bordered no-wrap">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Thời gian khám</th>
+                                    <th>Khách hàng</th>
+                                    <th>Vật nuôi</th>
+                                    <th>Lý do khám</th>
+                                    <th>Trạng thái</th>
+                                    <th>Sửa</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var list in Model)
+                                {
+                                    <tr>
+                                        <td>@list.LICHHEN.IDLICHKHAM</td>
+                                        <td>@list.LICHHEN.THOIGIANKHAM</td>
+                                        <td>
+                                            <span style="color:blueviolet">@list.CUSTOMER.HOTEN</span> <br />
+                                            ĐT:@list.CUSTOMER.DIENTHOAI <br />
+                                            Đ/c: @list.CUSTOMER.DIACHI
+                                        </td>
+                                        <td>
+                                            <span style="color:blueviolet">@list.PET.TEN</span> <br />
+                                            @list.PET.LOAI <br />
+                                            @list.PET.NGAYSINH
+                                        </td>
+                                        <td>@list.LICHHEN.LYDO</td>
+                                        <td>
+                                            @if (@list.LICHHEN.TRANGTHAI == 1)
+                                            {
+                                                <span style="color:red">Xác nhận khám</span>
+                                            }
+                                            else
+                                            {
+                                                if (@list.LICHHEN.TRANGTHAI == 2)
+                                                {
+                                                    <span>Chờ xác nhận</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>Đã khám</span>
+                                                }
+                                            }
+
+
+                                        </td>
+                                        <td align="center">
+                                            <a href="" onclick="showDataLichkham(@list.LICHHEN.IDLICHKHAM)"
+                                               class="edit-account" data-id="@list.LICHHEN.IDLICHKHAM" data-toggle="modal" data-target="#modal-edit"><i class="far fa-edit"></i></a>
+                                        </td>
+                                        <td align="center">
+                                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                <a class="dropdown-item" href="/MedicalExamination/Phieuchidinh/@list.PET.IDVATNUOI">PCĐ</a>
+                                                <a class="dropdown-item" href="/MedicalExamination/Kedon/@list.PET.IDVATNUOI">Kê đơn</a>
+                                                <a class="dropdown-item" href="/MedicalExamination/Dientienvasinhhieu/@list.PET.IDVATNUOI">Diễn tiến/sinh hiệu</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="modal-edit" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+        <div class="modal-content modal-h-9">
+            <div class="modal-header modal-colored-header bg-primary">
+                <h4 class="modal-title font-weight-bold" id="primary-header-modalLabel">
+                    Cập nhật thông tin
+                </h4>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body p-4">
+                <form id="form" class="pl-3 pr-3" method="post" action="/MedicalExamination/Update" enctype="multipart/form-data">
+                    <input name="IDLICHKHAM" type="hidden" id="idlichkham">
+                    <input name="homnay" type="hidden" value="homnay">
+                    <div class="card">
+                        <div class="card-header font-weight-bold w-35 m-3 bg-info text-white ml" style="border-radius: 10px; margin-left: -10px !important;">
+                            Sửa đổi thông tin lịch khám
+                        </div>
+                        <div class="card-body">
+
+                            <div class="row">
+                                <div class="col-6">
+
+                                    <div class="form-group">
+                                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Trạng thái</h6>
+                                        <select class="custom-select mr-sm-2 border-primary border-top-0 border-right-0 border-left-0 text-dark"
+                                                id="trangthai" name="TRANGTHAI" required>
+                                            <option value="1">Xác nhận khám</option>
+                                            <option value="2">Chờ xác nhận khám</option>
+                                            <option value="3">Đã khám</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Thời gian khám</h6>
+                                        <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                               type="datetime-local" id="thoigiankham" maxlength="50" name="THOIGIANKHAM" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Lý do khám bệnh</h6>
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="text" id="lydo" maxlength="50" name="LYDO" required>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="card" id="MSTTK">
+                        <div class="card-header font-weight-bold w-30 m-3 bg-info text-white ml" style="border-radius: 10px; margin-left: -10px !important;">
+                            Một số thông tin
+                        </div>
+                        <div class="card-body">
+
+                            <div class="form-group ">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Thông tin khách hàng</h6>
+                                <label id="hoten" class="font-weight-bold m-3"></label>
+                                <label id="sdt" class="font-weight-bold m-3"></label>
+                                <label id="dc" class="font-weight-bold m-3"></label>
+                            </div>
+
+                            <div class="form-group ">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Thông tin vật nuôi</h6>
+                                <label id="ten" class="font-weight-bold m-3"></label>
+                                <label id="tuoi" class="font-weight-bold m-3"></label>
+                                <label id="loai" class="font-weight-bold m-3"></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="actionModal" type="submit" class="btn btn-primary d-none"></button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="clickSuscess()">Xác nhận</button>
+                <button type="button" class="btn waves-effect waves-light btn-light" data-dismiss="modal">Hủy</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

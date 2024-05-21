@@ -1,0 +1,126 @@
+﻿@model PHONGKHAMTHUY.Models.ListOfAppointmentsModel
+@{
+    ViewBag.Title = "Chi tiết khám bệnh";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.PageText = "Sinh hiệu và diễn tiến bệnh";
+    ViewBag.Breadcrumb = "Sinh hiệu và diễn tiến bệnh";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title bg-light p-2">Vật nuôi</h4>
+
+                <div class="row">
+                        <h6 class="font-weight-bold p-2">Tên vật nuôi: <span style="color:blue">@Model.PET.TEN</span></h6>
+                        <h6 class="font-weight-bold p-2">Tuổi: <span style="color:blue">@Model.PET.TUOI tháng tuổi</span></h6><br />
+                        <h6 class="font-weight-bold p-2">Giống: <span style="color:blue">@Model.PET.GIONG</span></h6><br />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Diễn tiến bệnh</h4>
+
+                <form id="form" class="pl-3 pr-3" method="post" action="/MedicalExamination/Dientienvasinhhieu/@Model.IDVATNUOI" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-10">
+                            <div class="form-group">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Thêm mới diễn tiến bệnh</h6>
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="text" id="noidung" maxlength="500" name="NOIDUNG" required>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <button id="btnAdd" type="submit" class="btn btn-primary">Lưu</button>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="dropdown-divider"></div>
+               
+                <div class="bg-light p-3">
+                    @foreach (var list in Model.LISTDIENTIEN)
+                    {
+                        <div class="toast" role="alert" data-autohide="false" aria-live="assertive"
+                             aria-atomic="true">
+                            <div class="toast-header">
+                                <strong class="mr-auto">@(list.NGAYTAO.HasValue ? list.NGAYTAO.Value.ToString("dd/MM/yyyy") : "N/A")</strong>
+                                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="toast-body">
+                                @list.NOIDUNG
+                            </div>
+                        </div>
+                    }
+                    </div>                   
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Sinh hiệu</h4>
+
+                <form id="form" class="pl-3 pr-3" method="post" action="/MedicalExamination/Dientienvasinhhieu/@Model.IDVATNUOI" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-10">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Nhiệt độ</h6>
+                                        <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                               type="text" id="nhietdo" maxlength="500" name="NHIETDO" required>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Cân nặng</h6>
+                                        <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                               type="text" id="cannang" maxlength="500" name="CANNANG" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <button id="btnAdd" type="submit" class="btn btn-primary">Lưu</button>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="dropdown-divider"></div>
+
+                
+                <div class="bg-light p-3">
+                    @foreach (var list in Model.LISTSINHHIEU)
+                    {
+                        <div class="toast" role="alert" data-autohide="false" aria-live="assertive"
+                             aria-atomic="true">
+                            <div class="toast-header">
+                                <strong class="mr-auto">@(list.NGAYTAO.HasValue ? list.NGAYTAO.Value.ToString("dd/MM/yyyy") : "N/A")</strong>
+                                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="toast-body">
+                                Nhiệt độ: @list.NHIETDO&#176C ---- Cân nặng:@list.CANNANG kg
+                            </div>
+                        </div>
+                    }
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

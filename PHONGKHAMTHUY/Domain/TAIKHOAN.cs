@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-
-namespace PHONGKHAMTHUY.Models
+﻿namespace PHONGKHAMTHUY.Domain
 {
-    public class AccountModel
+    using System;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    [Table("TAIKHOAN")]
+    public partial class TAIKHOAN
     {
+        [Key]
         public int IDTAIKHOAN { get; set; }
 
         public int IDNHOMNGUOIDUNG { get; set; }

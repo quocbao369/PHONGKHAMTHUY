@@ -1,0 +1,154 @@
+﻿@model PHONGKHAMTHUY.Models.ListOfAppointmentsModel
+@{
+    ViewBag.Title = "Phieuchidinh";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Breadcrumb = "Phiếu chỉ định";
+    ViewBag.PageText = "Lập phiếu chỉ định";
+}
+
+<div class="row">
+    <div class="col-5">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="text-center font-weight-bold text-muted">PHIẾU CHỈ ĐỊNH CSL</h4><br />
+                <form id="form" class="pl-3 pr-3" method="post" action="/MedicalExamination/Phieuchidinh" enctype="multipart/form-data">
+
+                    <div class="row">
+                        <div class="col-6">
+                            <h6>Họ tên: <span style="font-weight:bold">@Model.CUSTOMER.HOTEN</span></h6>
+                        </div>
+                        <div class="col-6">
+                            <h6>Địa chỉ: <span style="font-weight:bold">@Model.CUSTOMER.DIACHI</span></h6>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <h6><span style="color:red">Vật nuôi:</span> @Model.PET.TEN </h6>
+                            <input type="hidden" name="IDVATNUOI" value="@Model.PET.IDVATNUOI" />
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <h6 class="ml-3 mt-3">Lâm sàng / Chuẩn đoán:</h6>
+                                <div class="col">
+                                    <input class="form-control border-right border-top-0 border-right-0 border-left-0"
+                                           type="text" id="noidungchuandoan" maxlength="500" name="NOIDUNGCHUANDOAN" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="dynamic-fields-container">
+                        <div class="row mt-2">
+                            <div class="col-12">
+                                <div class="form-group row">
+                                    <h6 class="ml-3 mt-3">1.</h6>
+                                    <div class="col">
+                                        <input class="form-control border-right border-top-0 border-right-0 border-left-0"
+                                               type="text" id="chuandoan1" maxlength="500" name="CHUANDOAN" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-11"></div>
+                        <div class="col-1"><i onclick="addNewField()" class="fas fa-plus-circle bg-black"></i></div>
+
+                    </div>
+
+                    <br /><br /><br />
+                    <div class="row">
+                        <div class="col-6">
+                            <h6 class="font-weight-bold">Lời dặn:</h6>
+                            <input class="form-control border-right border-top-0 border-right-0 border-left-0"
+                                   type="text" id="loidan" maxlength="500" name="LOIDAN" required>
+                        </div>
+                        <div class="col-6">
+                            <h6 id="currentDate" class="text-center font-italic"></h6>
+                            <h6 class="text-center font-weight-bold">@Session["nameauth"]</h6>
+                            <br />
+                            <br />
+                            <h6 class="text-center">@Session["nameAccount"]</h6>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn waves-effect waves-light btn-outline-success">Lưu</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-7">
+        <div class="row">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-title">Diễn tiến bệnh</h6>
+                        <div class="bg-light p-2" style="height: 200px;overflow: auto;">
+                            @foreach (var list in Model.LISTDIENTIEN)
+                            {
+                                <div class="card p-1">
+                                    <h6 class="font-weight-bold">@(list.NGAYTAO.HasValue ? list.NGAYTAO.Value.ToString("dd/MM/yyyy") : "N/A")</h6>
+                                    <h6>@list.NOIDUNG</h6>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-title">Sinh hiệu</h6>
+                        <div class="bg-light p-2" style="height: 200px;overflow: auto;">
+                            @foreach (var list in Model.LISTSINHHIEU)
+                            {
+                            <div class="card p-1">
+                                <h6 class="font-weight-bold">@(list.NGAYTAO.HasValue ? list.NGAYTAO.Value.ToString("dd/MM/yyyy") : "N/A")</h6>
+                                <h6>Nhiệt độ:@list.NHIETDO&#176C --- Cân nặng:@list.CANNANG kg</h6>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Danh sách chỉ định CSL</h4>
+                        <div id="table_customer" class="table-responsive">
+                            <table id="zero_config" class="table table-sm mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Tên CSL</th>
+                                        <th>Danh mục</th>
+                                </thead>
+                                <tbody>
+                                    @foreach (var list in Model.LISTCHIDINHCSL)
+                                    {
+                                        <tr>
+                                            <td align="left">
+                                                <i data-toggle="tooltip" title="Copy text" style="cursor: pointer; margin-right: 20px;" class="far fa-copy" onclick="copyText(this)"></i>
+                                                @list.TEN
+                                            </td>
+                                            <td align="left">
+                                                @list.TENDANHMUC
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+
+    </div>
+
+</div>
+

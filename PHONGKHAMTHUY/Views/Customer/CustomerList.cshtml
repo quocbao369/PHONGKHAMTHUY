@@ -1,0 +1,305 @@
+﻿@model List<PHONGKHAMTHUY.Domain.KHACHHANG>
+
+@{
+    ViewBag.Title = "CustomerList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Breadcrumb = "Danh sách khách hàng";
+    ViewBag.PageText = "Danh sách khách hàng";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row justify-content-between">
+                    <h4 class="card-title">Danh sách khách hàng</h4>
+                    <button data-toggle="modal" data-target="#modal-new-cs" id="addUser" class="btn btn-primary btn-lg rounded-circle">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <h6 class="card-title mt-3">
+                </h6>
+                <div class="table-responsive">
+                    <table id="zero_config" class="table table-striped table-bordered no-wrap">
+                        <thead>
+                            <tr>
+                                <th>ID KHÁCH HÀNG</th>
+                                <th>HỌ TÊN</th>
+                                <th>GIỚI TÍNH</th>
+                                <th>ĐỊA CHỈ</th>
+                                <th>NGÀY TẠO</th>
+                                <th>SỬA</th>
+                                <th>XÓA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var customer in Model)
+                            {
+                                <tr>
+                                    <td>@customer.IDKHACHHANG</td>
+                                    <td>@customer.HOTEN</td>
+                                    @if (@customer.GIOITINH == "1")
+                                    {
+                                        <td>Nam</td>
+                                    }
+                                    else if (@customer.GIOITINH == "2")
+                                    {
+                                        <td>Nữ</td>
+                                    }
+                                    else if (@customer.GIOITINH == "3")
+                                    {
+                                        <td>Khác</td>
+                                    }
+                                    <td>@customer.DIACHI</td>
+                                    <td>@customer.NGAYTAO</td>
+                                    <td align="center"><a href="" onclick="updateCS(@customer.IDKHACHHANG)" class="edit-account" data-id="@customer.IDKHACHHANG" data-toggle="modal" data-target="#modal-edit-cs"><i class="far fa-edit"></i></a></td>
+                                    <td align="center"><a href="@Url.Action("deleteCustomer", "Customer",new { id = customer.IDKHACHHANG })"><i class="fas fa-trash-alt"></i></a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modal-edit-cs" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+        <div class="modal-content modal-h-9">
+            <div class="modal-header modal-colored-header bg-primary">
+                <h4 class="modal-title font-weight-bold" id="primary-header-modalLabel">
+                    Cập nhật khách hàng
+                </h4>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body p-4">
+                <form id="form" class="pl-3 pr-3" method="post" action="/Customer/Update" enctype="multipart/form-data">
+
+                    <div class="card">
+                        <div class="card-header font-weight-bold w-30 m-3 bg-info text-white ml" style="border-radius: 10px; margin-left: -10px !important;">
+                            Thông tin khách hàng
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group w-50">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Loại khách hàng</h6>
+                                <select class="custom-select mr-sm-2 border-primary border-top-0 border-right-0 border-left-0 text-dark"
+                                        id="loaikhachhang" required name="LOAIKHACHHANG" >
+                                    <option value="0">Lựa chọn</option>
+                                    <option value="1">Khách hàng thân thiết</option>
+                                    <option value="2">Khách hàng bình thường</option>
+                                </select>
+                                <input name="IDKHACHHANG" type="hidden" id="idkhachhang">
+                            </div>
+
+                            <div class="form-group">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Tên khách hàng</h6>
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="text" id="hoten" maxlength="50" name="HOTEN" required>
+                            </div>
+
+                            <div class="form-group ">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Điện thoại</h6>
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="number" id="dienthoai" maxlength="10" required name="DIENTHOAI" >
+                            </div>
+
+                            <div class="form-group">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Địa chỉ</h6>
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="text" id="diachi" maxlength="256" name="DIACHI" required>
+                            </div>
+
+                            <div class="form-group w-25">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Giới tính</h6>
+                                <select class="custom-select mr-sm-2 border-primary border-top-0 border-right-0 border-left-0 text-dark"
+                                        id="gioitinh" required name="GIOITINH">
+                                    <option value="">Lựa chọn</option>
+                                    <option value="1">Nam</option>
+                                    <option value="2">Nữ</option>
+                                    <option value="3">Khác</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="card" id="MSTTK">
+                        <div class="card-header font-weight-bold w-30 m-3 bg-info text-white ml" style="border-radius: 10px; margin-left: -10px !important;">
+                            Một số thông tin khác
+                        </div>
+                        <div class="card-body">
+
+                            <div class="form-group ">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Ngày tạo</h6>
+                                <label id="ngaytao" class="font-weight-bold m-3"></label>
+                            </div>
+
+                            <div class="form-group ">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Ngày sửa gần nhất</h6>
+                                <label id="ngaysua" class="font-weight-bold m-3"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="actionModal" type="submit" class="btn btn-primary d-none"></button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="clickSuscess()">Xác nhận</button>
+                <button type="button" class="btn waves-effect waves-light btn-light" data-dismiss="modal">Hủy</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div id="modal-new-cs" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+        <div class="modal-content modal-h-9">
+            <div class="modal-header modal-colored-header bg-primary">
+                <h4 class="modal-title font-weight-bold" id="primary-header-modalLabel">
+                    Thêm mới khách hàng
+                </h4>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body p-4">
+                <form id="form" class="pl-3 pr-3" method="post" action="/Customer/Add" enctype="multipart/form-data">
+
+                    <div class="card">
+                        <div class="card-header font-weight-bold w-30 m-3 bg-info text-white ml" style="border-radius: 10px; margin-left: -10px !important;">
+                            Thông tin khách hàng
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group w-50">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Loại khách hàng</h6>
+                                <select class="custom-select mr-sm-2 border-primary border-top-0 border-right-0 border-left-0 text-dark"
+                                        id="loaikhachhang" name="LOAIKHACHHANG" required>
+                                    <option value="0">Lựa chọn</option>
+                                    <option value="1">Khách hàng thân thiết</option>
+                                    <option value="2">Khách hàng bình thường</option>
+                                </select>
+                                <input name="IDKHACHHANG" type="hidden" id="idkhachhang">
+                            </div>
+
+                            <div class="form-group">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Tên khách hàng</h6>
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="text" id="hoten" maxlength="10" name="HOTEN" required>
+                            </div>
+
+                            <div class="form-group ">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Điện thoại</h6>
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="number" id="dienthoai" maxlength="10" name="DIENTHOAI" required>
+                            </div>
+
+                            <div class="form-group">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Địa chỉ</h6>
+                                <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                       type="text" id="diachi" maxlength="256" name="DIACHI" required>
+                            </div>
+
+                            <div class="form-group w-25">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Giới tính</h6>
+                                <select class="custom-select mr-sm-2 border-primary border-top-0 border-right-0 border-left-0 text-dark"
+                                        id="gioitinh" required name="GIOITINH">
+                                    <option value="">Lựa chọn</option>
+                                    <option value="1">Nam</option>
+                                    <option value="2">Nữ</option>
+                                    <option value="3">Khác</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="card" id="MSTTK">
+                        <div class="card-header font-weight-bold w-30 m-3 bg-info text-white ml" style="border-radius: 10px; margin-left: -10px !important;">
+                            Thêm mới vật nuôi
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-6">
+
+                                    <div class="form-group">
+                                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Tên vật nuôi</h6>
+                                        <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                               type="text" id="tenvn" maxlength="50" name="TEN">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Loài</h6>
+                                        <select class="custom-select mr-sm-2 border-primary border-top-0 border-right-0 border-left-0 text-dark"
+                                                id="loai" name="LOAI">
+                                            <option value="0">Lựa chọn</option>
+                                            <option value="1">Chó</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Giống</h6>
+                                        <select class="custom-select mr-sm-2 border-primary border-top-0 border-right-0 border-left-0 text-dark"
+                                                id="giong" name="GIONG">
+                                            <option value="0">Lựa chọn</option>
+                                            <option value="1">Pig bull</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group w-40">
+                                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Giới tính</h6>
+                                        <select class="custom-select mr-sm-2 border-primary border-top-0 border-right-0 border-left-0 text-dark"
+                                                id="gioitinh" name="GIOITINHVN">
+                                            <option value="0">Lựa chọn</option>
+                                            <option value="Đực">Đực</option>
+                                            <option value="Cái">Cái</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Tuổi</h6>
+                                        <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                               type="number" id="tuoi" maxlength="50" name="TUOI">
+                                    </div>
+                                    <div class="form-group">
+                                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Màu sắc</h6>
+                                        <select class="custom-select mr-sm-2 border-primary border-top-0 border-right-0 border-left-0 text-dark"
+                                                id="mausac" name="MAUSAC">
+                                            <option value="0">Lựa chọn</option>
+                                            <option value="Trắng">Trắng</option>
+                                            <option value="Đen">Đen</option>
+                                            <option value="Vàng">Vàng</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Cân nặng</h6>
+                                        <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                               type="number" id="cannang" maxlength="50" name="CANNANG">
+                                    </div>
+                                    <div class="form-group">
+                                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Ngày sinh</h6>
+                                        <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                                               type="date" id="ngaysinh" maxlength="50" name="NGAYSINH">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="btnAdd" type="submit" class="btn btn-primary d-none"></button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="clickAdd()">Xác nhận</button>
+                <button type="button" class="btn waves-effect waves-light btn-light" data-dismiss="modal">Hủy</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
