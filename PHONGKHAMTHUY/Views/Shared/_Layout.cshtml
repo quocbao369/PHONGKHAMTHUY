@@ -26,6 +26,10 @@
         #zero_config tr {
             text-align:center;
         }
+        #zero_config tr td {
+            text-align: center; /* Căn giữa theo chiều ngang */
+            vertical-align: middle; /* Căn giữa theo chiều dọc */
+        }
 
         #table_customer #zero_config_info {
             display: none;
@@ -38,6 +42,7 @@
         #table_customer #zero_config_filter {
             margin-left: -130px;
         }
+
 
     </style>
 </head>
@@ -75,15 +80,15 @@
                         <a href="/Home/Index">
                             <b class="logo-icon">
                                 <!-- Dark Logo icon -->
-                                <img src="~/Public/assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
+                                <img src="~/Public/assets/images/LOGO.png" alt="homepage" class="dark-logo" width="70" height="60" />
                                 <!-- Light Logo icon -->
-                                <img src="~/Public/assets/images/logo-icon.png" alt="homepage" class="light-logo" />
+                                <img src="~/Public/assets/images/LOGO.png" alt="homepage" class="light-logo" width="70" height="60" />
                             </b>
                             <!--End Logo icon -->
                             <!-- Logo text -->
                             <span class="logo-text">
                                 <!-- dark Logo text -->
-                                <img src="~/Public/assets/images/logo-text.png" alt="homepage" class="dark-logo" />
+                                <img src="~/Public/assets/images/TextLogo.png" alt="homepage" class="dark-logo" width="120" height="22" />
                                 <!-- Light Logo text -->
                                 <img src="~/Public/assets/images/logo-light-text.png" class="light-logo" alt="homepage" />
                             </span>
@@ -131,10 +136,10 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown"
                                aria-haspopup="true" aria-expanded="false">
-                                <img src="~/Public/assets/images/users/profile-pic.jpg" alt="user" class="rounded-circle"
+                                <img src="~/Public/assets/images/avatar/@Session["avatar"]" alt="user" class="rounded-circle"
                                      width="40">
                                 <span class="ml-2 d-none d-lg-inline-block">
-                                    <span>Hello,</span> <span class="text-dark">Jason Doe</span>
+                                    <span>Hello,</span> <span class="text-dark">@Session["nameAccount"]</span>
                                 </span>
                             </a>
                         </li>
@@ -157,326 +162,195 @@
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
-                        <li class="sidebar-item">
-                            <a class="sidebar-link sidebar-link" href="/Home/Index"
-                               aria-expanded="false">
-                                <i data-feather="home" class="feather-icon"></i><span class="hide-menu">Trang chủ</span>
-                            </a>
-                        </li>
-                        <!-- Khách hàng -->
-                        <li class="list-divider"></li>
-                        <li class="nav-small-cap"><span class="hide-menu">Khách hàng</span></li>
+                        @if (Session["auth"].ToString() == "AD" || Session["auth"].ToString() == "TN")
+                        {
+                            <li class="sidebar-item">
+                                <a class="sidebar-link sidebar-link" href="/Home/Index"
+                                   aria-expanded="false">
+                                    <i data-feather="home" class="feather-icon"></i><span class="hide-menu">Trang chủ</span>
+                                </a>
+                            </li>
+                        }
+                            <!-- Khách hàng -->
+                            <li class="list-divider"></li>
+                            <li class="nav-small-cap"><span class="hide-menu">Khách hàng</span></li>
 
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="@Url.Action("CustomerList", "Customer")"
-                               aria-expanded="false">
-                                <i class="icon-people"></i><span class="hide-menu">
-                                    Damh sách  khách hàng
-                                </span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link sidebar-link" href="@Url.Action("PetList", "Pet")"
-                               aria-expanded="false">
-                                <i class="fab fa-sticker-mule"></i><span class="hide-menu">
-                                    Danh sách vật nuôi
-                                </span>
-                            </a>
-                        </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="@Url.Action("CustomerList", "Customer")"
+                                   aria-expanded="false">
+                                    <i class="icon-people"></i><span class="hide-menu">
+                                        Damh sách  khách hàng
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link sidebar-link" href="@Url.Action("PetList", "Pet")"
+                                   aria-expanded="false">
+                                    <i class="fab fa-sticker-mule"></i><span class="hide-menu">
+                                        Danh sách vật nuôi
+                                    </span>
+                                </a>
+                            </li>
 
-                        <!-- Lịch hẹn-->
+                            <!-- Lịch hẹn-->
 
-                        <li class="list-divider"></li>
-                        <li class="nav-small-cap"><span class="hide-menu">Lịch hẹn</span></li>
+                            <li class="list-divider"></li>
+                            <li class="nav-small-cap"><span class="hide-menu">Lịch hẹn</span></li>
 
-                        <li class="sidebar-item">
-                            <a class="sidebar-link sidebar-link" href="@Url.Action("MedicalExaminationList", "MedicalExamination")"
-                               aria-expanded="false">
-                                <i class="far fa-calendar-alt"></i><span class="hide-menu">
-                                    Lịch khám hôm nay
-                                </span>
-                            </a>
-                        </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link sidebar-link" href="@Url.Action("MedicalExaminationList", "MedicalExamination")"
+                                   aria-expanded="false">
+                                    <i class="far fa-calendar-alt"></i><span class="hide-menu">
+                                        Lịch khám hôm nay
+                                    </span>
+                                </a>
+                            </li>
 
-                        <li class="sidebar-item">
-                            <a class="sidebar-link sidebar-link" href="@Url.Action("Index", "MedicalExamination")"
-                               aria-expanded="false">
-                                <i class="far fa-clipboard"></i><span class="hide-menu">
-                                    Đăng kí khám
-                                </span>
-                            </a>
-                        </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link sidebar-link" href="@Url.Action("Index", "MedicalExamination")"
+                                   aria-expanded="false">
+                                    <i class="far fa-clipboard"></i><span class="hide-menu">
+                                        Đăng kí khám
+                                    </span>
+                                </a>
+                            </li>
 
-                        <li class="sidebar-item">
-                            <a class="sidebar-link sidebar-link" href="@Url.Action("ListOfAppointments", "MedicalExamination")"
-                               aria-expanded="false">
-                                <i class="fas fa-list-alt"></i><span class="hide-menu">
-                                    Danh sách khám
-                                </span>
-                            </a>
-                        </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link sidebar-link" href="@Url.Action("ListOfAppointments", "MedicalExamination")"
+                                   aria-expanded="false">
+                                    <i class="fas fa-list-alt"></i><span class="hide-menu">
+                                        Danh sách khám
+                                    </span>
+                                </a>
+                            </li>
 
 
-                        <!-- Khám bệnh -->
+                            <!-- Khám bệnh -->
 
-                        <li class="list-divider"></li>
-                        <li class="nav-small-cap"><span class="hide-menu">Khám bệnh</span></li>
+                            <li class="list-divider"></li>
+                            <li class="nav-small-cap"><span class="hide-menu">Khám bệnh</span></li>
 
-                        <li class="sidebar-item">
-                            <a class="sidebar-link sidebar-link" href="#"
-                               aria-expanded="false">
-                                <i class="fas fa-tasks"></i><span class="hide-menu">
-                                    Đơn thuốc
-                                </span>
-                            </a>
-                        </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link sidebar-link" href="@Url.Action("danhsachdonthuoc", "CSLAppointmentSlip")"
+                                   aria-expanded="false">
+                                    <i class="fas fa-tasks"></i><span class="hide-menu">
+                                        Đơn thuốc
+                                    </span>
+                                </a>
+                            </li>
 
-                        <li class="sidebar-item">
-                            <a class="sidebar-link sidebar-link" href="#"
-                               aria-expanded="false">
-                                <i class="far fa-list-alt"></i><span class="hide-menu">
-                                    Phiếu chỉ định CLS
-                                </span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item">
-                            <a class="sidebar-link sidebar-link" href="#"
-                               aria-expanded="false">
-                                <i class=" fas fa-indent"></i><span class="hide-menu">
-                                    Kết quả xét nghiệm
-                                </span>
-                            </a>
-                        </li>
-                        <!-- Thuốc -->
-
-                        <li class="list-divider"></li>
-                        <li class="nav-small-cap"><span class="hide-menu">Thuốc</span></li>
-
-                        <li class="sidebar-item">
-                            <a class="sidebar-link sidebar-link" href="@Url.Action("MedicineList", "Medicine")"
-                               aria-expanded="false">
-                                <i class="fas fa-syringe"></i><span class="hide-menu">
-                                    Thuốc - Vật tư
-                                </span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item">
-                            <a class="sidebar-link sidebar-link" href="#"
-                               aria-expanded="false">
-                                <i class="fas fa-truck"></i><span class="hide-menu">
-                                    Nhập kho
-                                </span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item">
-                            <a class="sidebar-link sidebar-link" href="#"
-                               aria-expanded="false">
-                                <i class="fas fa-edit"></i><span class="hide-menu">
-                                    Tình trạng thuốc/VT
-                                </span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item">
-                            <a class="sidebar-link sidebar-link" href="#"
-                               aria-expanded="false">
-                                <i class="icon-list"></i><span class="hide-menu">
-                                    Danh mục thuốc/VT
-                                </span>
-                            </a>
-                        </li>
-                        <!-- Thu chi -->
-
-                        <li class="list-divider"></li>
-                        <li class="nav-small-cap"><span class="hide-menu">Thu chi</span></li>
-
-                        <li class="sidebar-item">
-                            <a class="sidebar-link sidebar-link" href="#"
-                               aria-expanded="false">
-                                <i class="fas fa-donate"></i><span class="hide-menu">
-                                    Hóa đơn
-                                </span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item">
-                            <a class="sidebar-link sidebar-link" href="#"
-                               aria-expanded="false">
-                                <i class="far fa-file-alt"></i><span class="hide-menu">
-                                    Phiếu thu
-                                </span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item">
-                            <a class="sidebar-link sidebar-link" href="#"
-                               aria-expanded="false">
-                                <i class="far fa-file-alt"></i><span class="hide-menu">
-                                    Phiếu chi
-                                </span>
-                            </a>
-                        </li>
-
-                        <!-- Báo cáo -->
-
-                        <li class="list-divider"></li>
-                        <li class="nav-small-cap"><span class="hide-menu">Báo cáo</span></li>
-
-                        <li class="sidebar-item">
-                            <a class="sidebar-link sidebar-link" href="#"
-                               aria-expanded="false">
-                                <i class="fas fa-file-alt"></i><span class="hide-menu">
-                                    Số liệu thu chi
-                                </span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item">
-                            <a class="sidebar-link sidebar-link" href="#"
-                               aria-expanded="false">
-                                <i class="fas fa-file"></i><span class="hide-menu">
-                                    Thuốc đã sử dụng
-                                </span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item">
-                            <a class="sidebar-link sidebar-link" href="#"
-                               aria-expanded="false">
-                                <i class="fas fa-list-ul"></i><span class="hide-menu">
-                                    Thống kê thuốc/VT
-                                </span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item">
-                            <a class="sidebar-link sidebar-link" href="#"
-                               aria-expanded="false">
-                                <i class="fas fa-th"></i><span class="hide-menu">
-                                    Thống kê PCD CLS
-                                </span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item">
-                            <a class="sidebar-link sidebar-link" href="#"
-                               aria-expanded="false">
-                                <i class="far fa-file-alt"></i><span class="hide-menu">
-                                    Thống kê lịch khám
-                                </span>
-                            </a>
-                        </li>
-
-                        <!-- Cài đặt -->
-
-                        <li class="list-divider"></li>
-                        <li class="nav-small-cap"><span class="hide-menu">Cài đặt</span></li>
-
-                        <li class="sidebar-item">
-                            <a class="sidebar-link sidebar-link" href="@Url.Action("LoginAccount", "Setting")"
-                               aria-expanded="false">
-                                <i class="fas fa-file-alt"></i><span class="hide-menu">
-                                    Tài khoản đăng nhập
-                                </span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item">
-                            <a class="sidebar-link has-arrow" href="javascript:void(0)"
-                               aria-expanded="false">
-                                <i data-feather="file-text" class="feather-icon"></i><span class="hide-menu">Quản lý danh mục </span>
-                            </a>
-                            <ul aria-expanded="false" class="collapse  first-level base-level-line">
+                            <li class="sidebar-item">
+                                <a class="sidebar-link sidebar-link" href="@Url.Action("ListCSL", "CSLAppointmentSlip")"
+                                   aria-expanded="false">
+                                    <i class="far fa-list-alt"></i><span class="hide-menu">
+                                        Phiếu chỉ định CLS
+                                    </span>
+                                </a>
+                            </li>
+                            @if (Session["auth"].ToString() == "AD" || Session["auth"].ToString() == "BS")
+                            {
                                 <li class="sidebar-item">
-                                    <a href="form-inputs.html" class="sidebar-link">
-                                        <span class="hide-menu">
-                                            Nhóm người dùng
+                                    <a class="sidebar-link sidebar-link" href="@Url.Action("ListResult", "CSLAppointmentSlip")"
+                                       aria-expanded="false">
+                                        <i class=" fas fa-indent"></i><span class="hide-menu">
+                                            Kết quả xét nghiệm
                                         </span>
                                     </a>
                                 </li>
-                                <li class="sidebar-item">
-                                    <a href="form-input-grid.html" class="sidebar-link">
-                                        <span class="hide-menu">
-                                            Phòng
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a href="form-checkbox-radio.html" class="sidebar-link">
-                                        <span class="hide-menu">
-                                            Loài thú
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a href="form-checkbox-radio.html" class="sidebar-link">
-                                        <span class="hide-menu">
-                                            Giống thú
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a href="form-checkbox-radio.html" class="sidebar-link">
-                                        <span class="hide-menu">
-                                            Dịch vụ
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a href="form-checkbox-radio.html" class="sidebar-link">
-                                        <span class="hide-menu">
-                                            Chỉ định CLS
-                                        </span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                            }
 
-                        <li class="sidebar-item">
-                            <a class="sidebar-link has-arrow" href="javascript:void(0)"
-                               aria-expanded="false">
-                                <i data-feather="file-text" class="feather-icon"></i><span class="hide-menu">Quản lý mục chi tiêu </span>
-                            </a>
-                            <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                                <li class="sidebar-item">
-                                    <a href="form-inputs.html" class="sidebar-link">
-                                        <span class="hide-menu">
-                                            Khoản mục phiếu thu
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a href="form-input-grid.html" class="sidebar-link">
-                                        <span class="hide-menu">
-                                            Khoản mục phiếu chi
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a href="form-checkbox-radio.html" class="sidebar-link">
-                                        <span class="hide-menu">
-                                            Tài khoản tiền
-                                        </span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link sidebar-link" href="@Url.Action("QLdscsl", "CSLAppointmentSlip")"
+                                   aria-expanded="false">
+                                    <i class="far fa-file-alt"></i><span class="hide-menu">
+                                        Quản lý danh sách phiếu chỉ định CSL
+                                    </span>
+                                </a>
+                            </li>
+                            <!-- Thuốc -->
+                            @if (Session["auth"].ToString() == "AD" || Session["auth"].ToString() == "TN")
+                            {
+                                <li class="list-divider"></li>
+                                <li class="nav-small-cap"><span class="hide-menu">Thuốc</span></li>
 
-                        <li class="list-divider"></li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link sidebar-link" href="@Url.Action("Logout", "Account")"
-                               aria-expanded="false">
-                                <i data-feather="log-out" class="feather-icon"></i><span class="hide-menu">Logout</span>
-                            </a>
-                        </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link sidebar-link" href="@Url.Action("MedicineList", "Medicine")"
+                                       aria-expanded="false">
+                                        <i class="fas fa-syringe"></i><span class="hide-menu">
+                                            Thuốc - Vật tư
+                                        </span>
+                                    </a>
+                                </li>
 
-                        <li class="list-divider"></li>
-                        <li class="sidebar-item">
-                        </li>
-                    </ul>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link sidebar-link" href="@Url.Action("DMthuoc", "Medicine")"
+                                       aria-expanded="false">
+                                        <i class="icon-list"></i><span class="hide-menu">
+                                            Danh mục thuốc/VT
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                            <!-- Thu chi -->
+                            @if (Session["auth"].ToString() == "AD" || Session["auth"].ToString() == "TN")
+                            {
+                                <li class="list-divider"></li>
+                                <li class="nav-small-cap"><span class="hide-menu">Thu chi</span></li>
+
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link sidebar-link" href="@Url.Action("ListBill", "Bill")"
+                                       aria-expanded="false">
+                                        <i class="fas fa-donate"></i><span class="hide-menu">
+                                            Hóa đơn
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+
+                            <!-- Báo cáo -->
+                            @if (Session["auth"].ToString() == "AD" || Session["auth"].ToString() == "TN")
+                            {
+                                <li class="list-divider"></li>
+                                <li class="nav-small-cap"><span class="hide-menu">Báo cáo</span></li>
+
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link sidebar-link" href="@Url.Action("Doanhthu", "Report")"
+                                       aria-expanded="false">
+                                        <i class="fas fa-file-alt"></i><span class="hide-menu">
+                                            Thống kê doanh thu
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+
+                            <!-- Cài đặt -->
+                            @if (Session["auth"].ToString() == "AD")
+                            {
+                                <li class="list-divider"></li>
+                                <li class="nav-small-cap"><span class="hide-menu">Cài đặt</span></li>
+
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link sidebar-link" href="@Url.Action("LoginAccount", "Setting")"
+                                       aria-expanded="false">
+                                        <i class="fas fa-file-alt"></i><span class="hide-menu">
+                                            Tài khoản đăng nhập
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+
+                            <li class="list-divider"></li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link sidebar-link" href="@Url.Action("Logout", "Account")"
+                                   aria-expanded="false">
+                                    <i data-feather="log-out" class="feather-icon"></i><span class="hide-menu">Logout</span>
+                                </a>
+                            </li>
+
+                            <li class="list-divider"></li>
+                            <li class="sidebar-item">
+                            </li>
+                        </ul>
                 </nav>
                 <!-- End Sidebar navigation -->
             </div>
@@ -565,8 +439,10 @@
     <script src="~/Public/assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="~/Public/dist/js/pages/datatable/datatable-basic.init.js"></script>
     <script src="~/Scripts/jsCustom.js"></script>
+    <script src="~/Public/dist/js/pages/chartjs/chartjs.init.js"></script>
+    <script src="~/Public/assets/libs/chart.js/dist/Chart.min.js"></script>
     <script type="text/javascript">
-    $('.toast').toast('show');
+        $('.toast').toast('show');
     </script>
 
 

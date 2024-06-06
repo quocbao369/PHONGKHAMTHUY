@@ -14,6 +14,7 @@ namespace PHONGKHAMTHUY.Controllers
     public class HomeController : Controller
     {
         private HomeService homeService = new HomeService();
+        private MedicineSevice medicineSevice = new MedicineSevice();
 
         public ActionResult Index()
         {
@@ -21,23 +22,18 @@ namespace PHONGKHAMTHUY.Controllers
             object[] authority = homeService.getAuthority(int.Parse(s));
             Session["nameauth"] = authority[0];
             Session["auth"] = authority[1];
+
+            var inforMedical = homeService.GetLatestDonThuoc();
+
             ViewBag.CountCustomer = homeService.countCustomers();
+            ViewBag.CountBill = homeService.countBill();
+            ViewBag.CountPCD = homeService.countPCD();
+            ViewBag.MedicineList = homeService.getAllMedicineHSD();
+            ViewBag.BillList = homeService.GetLatestHoaDon();
+            ViewBag.TimeMedical = homeService.GetTimeElapsed(inforMedical.DONTHUOC.NGAYTAO);
+            ViewBag.TimeMedical2 = homeService.GetTimeElapsed(homeService.GetLatestHoaDon().HOADON.NGAYTAO);
 
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            return View(inforMedical);
         }
     }
 }

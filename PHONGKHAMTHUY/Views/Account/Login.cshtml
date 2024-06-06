@@ -20,76 +20,108 @@
 </head>
 
 <body>
-        <div class="main-wrapper">
-            <!-- ============================================================== -->
-            <!-- Preloader - style you can find in spinners.css -->
-            <!-- ============================================================== -->
-            <div class="preloader">
-                <div class="lds-ripple">
-                    <div class="lds-pos"></div>
-                    <div class="lds-pos"></div>
-                </div>
+    <div class="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Preloader - style you can find in spinners.css -->
+        <!-- ============================================================== -->
+        <div class="preloader">
+            <div class="lds-ripple">
+                <div class="lds-pos"></div>
+                <div class="lds-pos"></div>
             </div>
-            <!-- ============================================================== -->
-            <!-- Preloader - style you can find in spinners.css -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- Login box.scss -->
-            <!-- ============================================================== -->
-            <div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative">
-                <div class="auth-box row">
-                    <div class="col-lg-7 col-md-5 modal-bg-img" style="background-image: url(../Public/assets/images/big/bg1.jpg); ">
-                    </div>
-                    <div class="col-lg-5 col-md-7 bg-white">
-                        <div class="p-3">
-                            <div class="text-center">
-                                <img src="~/Public/assets/images/big/logoSignin.jpg" alt="wrapkit" width="100" height="100">
-                            </div>
-                            <h2 class="mt-3 text-center">Sign In</h2>
-                            @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "mt-4" }))
-                            {
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
-                                            @Html.TextBoxFor(m => m.TENDANGNHAP, new { @class = "form-control", @maxlength = "10", placeholder = "Username" })
-                                            @Html.ValidationMessageFor(m => m.TENDANGNHAP, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
-                                            @Html.PasswordFor(m => m.MATKHAU, new { @class = "form-control", @maxlength = "50", placeholder = "Password" })
-                                            @Html.ValidationMessageFor(m => m.MATKHAU, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 text-center">
-                                        <button type="submit" class="btn btn-rounded btn-primary btn-block">Sign In</button>
-                                    </div>
-                                    <div class="col-lg-12 text-center mt-5">
-                                        Don't have an account? <a href="@Url.Action("Register", "Account")" class="text-danger">Sign Up</a>
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- ============================================================== -->
-            <!-- Login box.scss -->
-            <!-- ============================================================== -->
         </div>
         <!-- ============================================================== -->
-        <!-- All Required js -->
+        <!-- Preloader - style you can find in spinners.css -->
         <!-- ============================================================== -->
-        <script src="~/Public/assets/libs/jquery/dist/jquery.min.js "></script>
-        <!-- Bootstrap tether Core JavaScript -->
-        <script src="~/Public/assets/libs/popper.js/dist/umd/popper.min.js "></script>
-        <script src="~/Public/assets/libs/bootstrap/dist/js/bootstrap.min.js "></script>
         <!-- ============================================================== -->
-        <!-- This page plugin js -->
+        <!-- Login box.scss -->
         <!-- ============================================================== -->
+        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative">
+            <div class="auth-box row">
+                <div class="col-lg-7 col-md-5 modal-bg-img" style="background-image: url(../Public/assets/images/big/bg1.jpg); ">
+                </div>
+                <div class="col-lg-5 col-md-7 bg-white">
+                    <div class="p-3">
+                        <div class="text-center">
+                            <img src="~/Public/assets/images/big/logoSignin.jpg" alt="wrapkit" width="100" height="100">
+                        </div>
+                        <h2 class="mt-3 text-center">Sign In</h2>
+                        @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "mt-4" }))
+                        {
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.TENDANGNHAP, new { @class = "form-control", @maxlength = "10", placeholder = "Username" })
+                                        @Html.ValidationMessageFor(m => m.TENDANGNHAP, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        @Html.PasswordFor(m => m.MATKHAU, new { @class = "form-control", @maxlength = "50", placeholder = "Password" })
+                                        @Html.ValidationMessageFor(m => m.MATKHAU, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 text-center">
+                                    <button type="submit" class="btn btn-rounded btn-primary btn-block">Sign In</button>
+                                </div>
+                                <div class="col-lg-12 text-center mt-5">
+                                    Don't have an account? <a href="@Url.Action("Register", "Account")" class="text-danger">Sign Up</a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- Login box.scss -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- All Required js -->
+    <!-- ============================================================== -->
+    <script src="~/Public/assets/libs/jquery/dist/jquery.min.js "></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="~/Public/assets/libs/popper.js/dist/umd/popper.min.js "></script>
+    <script src="~/Public/assets/libs/bootstrap/dist/js/bootstrap.min.js "></script>
+    <!-- ============================================================== -->
+    <!-- This page plugin js -->
+    <!-- ============================================================== -->
+    <script>
+        $(".preloader ").fadeOut();
+    </script>
+    <!-- Alert -->
+    @if (!string.IsNullOrEmpty(ViewBag.Message))
+    {
         <script>
-            $(".preloader ").fadeOut();
+    window.onload = function() {
+        var message = '@ViewBag.Message';
+        if (message) {
+            $('#info-alert-modal').modal('show');
+        }
+    };
         </script>
-    </body>
+    }
+    <div id="info-alert-modal" class="modal fade" tabindex="-1" role="dialog"
+         aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-body p-4">
+                    <div class="text-center">
+                        <i class="dripicons-information h1 text-info"></i>
+                        <h4 class="mt-2">Thông báo!</h4>
+                        <p class="mt-3">
+                            @ViewBag.Message
+                        </p>
+                        <button type="button" class="btn btn-info my-2"
+                                data-dismiss="modal">
+                            Continue
+                        </button>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</body>
 
 </html>

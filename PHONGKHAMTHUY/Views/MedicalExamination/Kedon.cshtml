@@ -1,8 +1,176 @@
-﻿
+﻿@model PHONGKHAMTHUY.Models.ListOfAppointmentsModel
 @{
     ViewBag.Title = "Kedon";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Breadcrumb = "Phiếu chỉ định CSL / Kê đơn";
+    ViewBag.PageText = "Kê đơn";
 }
 
-<h2>Kedon</h2>
+<div class="row">
+    <div class="col-3">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Danh sách thuốc / vật tư</h4>
+                <div id="table_customer" class="table-responsive">
+                    <table id="zero_config" class="table table-sm mb-0">
+                        <thead>
+                            <tr>
+                                <th>Tên tên thuốc / vật tư</th>
+                        </thead>
+                        <tbody>
+                            @foreach (var list in Model.LISTTHUOCVAVATTU)
+                            {
+                                <tr>
+                                    <td style="text-align:left">
+                                        <span style="cursor:pointer;" onclick="getMedicineDetails('@list.IDTHUOCVT')">@list.TENTHUOCVT</span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <form id="form" class="pl-3 pr-3" method="post" action="/MedicalExamination/Kedon/@Model.LICHHEN.IDLICHKHAM" enctype="multipart/form-data">
+            <div class="card">
+                <div class="card-body" style="height: 80vh; overflow: auto;">
+                    <h4 class="text-center font-weight-bold text-danger">ĐƠN THUỐC</h4><br />
+                    <div class="row">
+                        <div class="col-6">
+                            <h6>Họ tên: <span style="font-weight:bold">@Model.CUSTOMER.HOTEN</span></h6>
+                        </div>
+                        <div class="col-6">
+                            <h6>SĐT: <span style="font-weight:bold">@Model.CUSTOMER.DIENTHOAI</span></h6>
+                        </div>
+                    </div>
 
+                    <div class="row mt-2">
+                        <div class="col-2"><h6>Địa chỉ:</h6></div>
+                        <div class="col-10 text-center"><h6 class="font-weight-bold"> @Model.CUSTOMER.DIACHI</h6></div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <h6><span style="color:red;">Vật nuôi:   </span><span style=" text-decoration: underline">@Model.PET.TEN</span></h6>
+                            <input type="hidden" name="IDVATNUOI" value="@Model.PET.IDVATNUOI" />
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <h6 class="ml-3 mt-3">Lý do khám: </h6>
+                                <div class="col">
+                                    <input class="form-control border-right border-top-0 border-right-0 border-left-0"
+                                           type="text" id="lydo" maxlength="500" name="LYDO" value="@Model.LICHHEN.LYDO"  readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="danhsachthuoc">
+                        <div id="thuoc-1" class="row">
+                            <div class="col-6">
+                                <div class="row">
+                                    <h6 class="ml-3 mt-3">1.</h6>
+                                    <div class="col">
+                                        <input class="form-control border-right border-top-0 border-right-0 border-left-0"
+                                               type="text" id="dsthuoc1" maxlength="500" name="DSTHUOC" required placeholder="Nhập tên thuốc">
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="row">
+                                    <h6 class="ml-3 mt-3 mr-2">Số lượng: </h6>
+                                    <input class="form-control border-right border-top-0 border-right-0 border-left-0 w-25 mr-3"
+                                           type="text" id="soluong" maxlength="500" name="SOLUONG" required value="1">
+                                    <input class="form-control border-right border-top-0 border-right-0 border-left-0 w-25"
+                                           type="text" id="donvi" maxlength="500" name="DONVI" required value="viên">
+                                    <a onclick="removeField('thuoc-1')"><i class="icon-close" style="cursor:pointer;"></i></a>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="row">
+                                    <h6 class="ml-3 mt-3">Cách dùng:</h6>
+                                    <input class="form-control border-right border-top-0 border-right-0 border-left-0 w-75"
+                                           type="text" id="cachdung" maxlength="500" name="CACHDUNG" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-11"></div>
+                        <div class="col-1"><i onclick="addNewField2()" class="fas fa-plus-circle bg-black" style="cursor:pointer"></i></div>
+                    </div>
+
+                    <br />
+
+                    <div class="row">
+                        <div class="col-6">
+                            <h6 class="font-weight-bold">Lời dặn:</h6>
+                            <input class="form-control border-right border-top-0 border-right-0 border-left-0"
+                                   type="text" id="loidan" maxlength="500" name="LOIDAN" required>
+                        </div>
+                        <div class="col-6">
+                            <h6 id="currentDate" class="text-center font-italic"></h6>
+                            <h6 class="text-center font-weight-bold">@Session["nameauth"]</h6>
+                            <br />
+                            <br />
+                            <h6 class="text-center">@Session["nameAccount"]</h6>
+                        </div>
+                    </div>
+
+                </div>
+                <button type="submit" class="btn waves-effect waves-light btn-outline-success">Lưu</button>
+
+            </div>
+        </form>
+    </div>
+    <div class="col-3">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">Diễn tiến bệnh</h6>
+                <div class="bg-light p-2" style="height: 200px;overflow: auto;">
+                    @foreach (var list in Model.LISTDIENTIEN)
+                    {
+                        <div class="card p-1">
+                            <h6 class="font-weight-bold">@(list.NGAYTAO.HasValue ? list.NGAYTAO.Value.ToString("dd/MM/yyyy") : "N/A")</h6>
+                            <h6>@list.NOIDUNG</h6>
+                        </div>
+                    }
+                </div>
+
+                <hr />
+
+                <h6 class="card-title">Sinh hiệu</h6>
+                <div class="bg-light p-2" style="height: 200px;overflow: auto;">
+                    @foreach (var list in Model.LISTSINHHIEU)
+                    {
+                        <div class="card p-1">
+                            <h6 class="font-weight-bold">@(list.NGAYTAO.HasValue ? list.NGAYTAO.Value.ToString("dd/MM/yyyy") : "N/A")</h6>
+                            <h6>Nhiệt độ:@list.NHIETDO&#176C --- Cân nặng:@list.CANNANG kg</h6>
+                        </div>
+                    }
+                </div>
+
+                <hr />
+
+                <h6 class="card-title">Danh sách KQXN</h6>
+                <div class="bg-light p-2" style="height: 200px;overflow: auto;">
+                    @foreach (var list in Model.LISTKETQUAXN)
+                    {
+                        <div class="card p-1">
+                            <h6 class="font-weight-bold">Ngày trả KQ: @(list.NGAYTAO.HasValue ? list.NGAYTAO.Value.ToString("dd/MM/yyyy") : "N/A")</h6>
+                            <h6><a href="@Url.Action("ShowResult", "CSLAppointmentSlip",new { id = list.IDHANGMUC })">Xem chi tiết kết quả</a></h6>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

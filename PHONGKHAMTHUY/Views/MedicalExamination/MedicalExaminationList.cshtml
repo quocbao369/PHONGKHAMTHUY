@@ -24,8 +24,11 @@
                                     <th>Lý do khám</th>
                                     <th>Trạng thái</th>
                                     <th>Sửa</th>
-                                    <th>Thao tác</th>
-                                </tr>
+                                    @if (Session["auth"].ToString() == "AD" || Session["auth"].ToString() == "BS")
+                                    {
+                                        <th>Thao tác</th>
+                                    }
+                                    </tr>
                             </thead>
                             <tbody>
                                 @foreach (var list in Model)
@@ -73,8 +76,8 @@
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </a>
                                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                <a class="dropdown-item" href="/MedicalExamination/Phieuchidinh/@list.PET.IDVATNUOI">PCĐ</a>
-                                                <a class="dropdown-item" href="/MedicalExamination/Kedon/@list.PET.IDVATNUOI">Kê đơn</a>
+                                                <a class="dropdown-item" href="/MedicalExamination/Phieuchidinh/@list.LICHHEN.IDLICHKHAM">PCĐ</a>
+                                                <a class="dropdown-item" href="/MedicalExamination/Kedon/@list.LICHHEN.IDLICHKHAM">Kê đơn</a>
                                                 <a class="dropdown-item" href="/MedicalExamination/Dientienvasinhhieu/@list.PET.IDVATNUOI">Diễn tiến/sinh hiệu</a>
                                             </div>
                                         </td>

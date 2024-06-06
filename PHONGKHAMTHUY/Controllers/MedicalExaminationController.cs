@@ -1,4 +1,5 @@
 ﻿using PHONGKHAMTHUY.Domain;
+using PHONGKHAMTHUY.Filters;
 using PHONGKHAMTHUY.Models;
 using PHONGKHAMTHUY.Services;
 using System;
@@ -10,6 +11,7 @@ using System.Web.Mvc;
 
 namespace PHONGKHAMTHUY.Controllers
 {
+    [CheckSessionAttribute]
     public class MedicalExaminationController : Controller
     {
         private MedicalExaminationSevice medicaSevice = new MedicalExaminationSevice();
@@ -28,7 +30,8 @@ namespace PHONGKHAMTHUY.Controllers
         [HttpPost]
         public ActionResult Index(LICHHEN lh)
         {
-            string message = medicaSevice.addLichhen(lh);
+            string idtaikhoan = Session["idAccount"].ToString();
+            string message = medicaSevice.addLichhen(lh, int.Parse(idtaikhoan));
             if (message != null)
             {
                 ViewBag.Message = message;
@@ -44,7 +47,8 @@ namespace PHONGKHAMTHUY.Controllers
         [HttpGet]
         public ActionResult MedicalExaminationList()
         {
-            var list = medicaSevice.getListToday();
+            string idtk = Session["idAccount"].ToString();
+            var list = medicaSevice.getListToday(int.Parse(idtk));
             return View(list);
         }
 
@@ -53,7 +57,8 @@ namespace PHONGKHAMTHUY.Controllers
         [HttpGet]
         public ActionResult ListOfAppointments()
         {
-            var list = medicaSevice.getAllListAppointment();
+            string idtk = Session["idAccount"].ToString();
+            var list = medicaSevice.getAllListAppointment(int.Parse(idtk));
             return View(list);
         }
 
@@ -84,6 +89,7 @@ namespace PHONGKHAMTHUY.Controllers
         [HttpPost]
         public ActionResult Update(LICHHEN lh, string homnay, string dakham)
         {
+            string idtk = Session["idAccount"].ToString();
             string message = medicaSevice.updateLichkham(lh);
             if (message != null)
             {
@@ -91,12 +97,12 @@ namespace PHONGKHAMTHUY.Controllers
             }
             if("homnay".Equals(homnay))
             {
-                var list = medicaSevice.getListToday();
+                var list = medicaSevice.getListToday(int.Parse(idtk));
                 return View("MedicalExaminationList",list);
             }
             else if ("dakham".Equals(dakham))
             {
-                var list = medicaSevice.getAllListAppointment();
+                var list = medicaSevice.getAllListAppointment(int.Parse(idtk));
                 return View("ListOfAppointments",list);
             }
             else
@@ -106,6 +112,7 @@ namespace PHONGKHAMTHUY.Controllers
             
         }
 
+        // Phiếu chỉ định
         [HttpGet]
         public ActionResult Phieuchidinh(int id)
         {
@@ -114,19 +121,20 @@ namespace PHONGKHAMTHUY.Controllers
         }
 
         [HttpPost]
-        public ActionResult Phieuchidinh( List<string> CHUANDOAN, string NOIDUNGCHUANDOAN,string LOIDAN, string IDVATNUOI)
+        public ActionResult Phieuchidinh(int id, List<string> CHUANDOAN, string NOIDUNGCHUANDOAN,string LOIDAN, string IDVATNUOI)
         {
-            string message = medicaSevice.addPCD(CHUANDOAN, NOIDUNGCHUANDOAN, LOIDAN, IDVATNUOI);
+            string idtaikhoan = Session["idAccount"].ToString();
+            string message = medicaSevice.addPCD(CHUANDOAN, NOIDUNGCHUANDOAN, LOIDAN, IDVATNUOI, idtaikhoan, id);
             if (message != null)
             {
                 ViewBag.Message = message;
             }
 
-            int id = int.Parse(IDVATNUOI);
             var list = medicaSevice.getPCD(id);
             return View(list);
         }
 
+        // Diễn tiến sinh hiệu
         [HttpGet]
         public ActionResult Dientienvasinhhieu(int id)
         {
@@ -144,17 +152,41 @@ namespace PHONGKHAMTHUY.Controllers
             var list = medicaSevice.getSHDT(id);
             return View(list);
         }
+
+        // Kê đơn
         [HttpGet]
         public ActionResult Kedon(int id)
         {
-            return View();
+            var list = medicaSevice.getKedon(id);
+            return View(list);
         }
 
+        [HttpGet]
+        public ActionResult getMedicineDetails(int id)
+        {
+            var thuoc = medicaSevice.laythongtinthuoc(id);
+            if (thuoc != null)
+            {
+                return Json(thuoc, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return HttpNotFound();
+            }
+        }
 
-
-
-
-
+        [HttpPost]
+        public ActionResult Kedon(int id, List<string> DSTHUOC, List<string> SOLUONG, string LOIDAN)
+        {
+            string idtaikhoan = Session["idAccount"].ToString();
+            string message = medicaSevice.addDONTHUOC(id, DSTHUOC, SOLUONG, LOIDAN, idtaikhoan);
+            if (message != null)
+            {
+                ViewBag.Message = message;
+            }
+            var list = medicaSevice.getKedon(id);
+            return View(list);
+        }
 
         public void SetupViewBag()
         {

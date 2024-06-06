@@ -1,0 +1,78 @@
+﻿@model List<PHONGKHAMTHUY.Domain.CHIDINHCSL>
+@{
+    ViewBag.Title = "Quản lý danh sách Chỉ định CSL";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Breadcrumb = "Quản lý chỉ định CSl";
+    ViewBag.PageText = "Chỉ định CSL";
+}
+
+<div class="row">
+    <div class="col-8">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Danh mục</h4>
+
+                <div class="table-responsive">
+                    <table id="zero_config" class="table table-striped table-bordered no-wrap">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên</th>
+                                <th>Giá tiền</th>
+                                <th>Danh mục</th>
+                                <th>Mô tả</th>
+                                <th>Ngày tạo</th>
+                                <th>SỬA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var list in Model)
+                            {
+                                <tr>
+                                    <td>@list.IDCHIDINHCSL</td>
+                                    <td contenteditable="true" class="editable" data-id="@list.IDCHIDINHCSL" data-field="TENDANHMUC">@list.TEN</td>
+                                    <td contenteditable="true" class="editable" data-id="@list.IDCHIDINHCSL" data-field="GIA">@list.GIA</td>
+                                    <td contenteditable="true" class="editable" data-id="@list.IDCHIDINHCSL" data-field="TENDANHMUC">@list.TENDANHMUC</td>
+                                    <td contenteditable="true" class="editable" data-id="@list.IDCHIDINHCSL" data-field="MOTA">@list.MOTA</td>
+                                    <td>@(list.NGAYTAO.HasValue ? list.NGAYTAO.Value.ToString("dd/MM/yyyy") : "N/A")</td>
+                                    <td><button id="save-cdcsl" class="btn btn-outline-info" data-id="@list.IDCHIDINHCSL">Save</button></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Tạo mới danh mục</h4>
+                <form id="form" class="pl-3 pr-3" method="post" action="/CSLAppointmentSlip/QLdscsl" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Tên chỉ định CSl</h6>
+                        <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                               type="text" id="tendm" maxlength="50" name="TEN" required>
+                    </div>
+                    <div class="form-group">
+                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Giá tiền (VND)</h6>
+                        <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                               type="number" id="gia" maxlength="50" name="GIA" required>
+                    </div>
+                    <div class="form-group">
+                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Tên danh mục </h6>
+                        <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                               type="text" id="tendanhmuc" maxlength="50" name="TENDANHMUC" required>
+                    </div>
+                    <div class="form-group">
+                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Mô tả</h6>
+                        <textarea class="form-control border-primary border-top-0 border-right-0 border-left-0" id="mota"name="MOTA" required></textarea>
+                    </div>
+                    <button id="btnAdd" type="submit" class="btn btn-primary">Thêm</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

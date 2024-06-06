@@ -90,7 +90,7 @@ namespace PHONGKHAMTHUY.Services
                         {
                             // Nếu có lỗi, rollback giao dịch
                             dbContextTransaction.Rollback();
-                            return "Tạo tài khoản thất bại";
+                            return "Tạo thất bại";
                         }
                     }
                 }
@@ -129,7 +129,7 @@ namespace PHONGKHAMTHUY.Services
                 pet.NGAYSUA = date;
 
                 // Lưu thay đổi vào cơ sở dữ liệu
-                db.SaveChanges();
+               
 
                 return "Cập nhật thông tin vật nuôi thành công";
             }

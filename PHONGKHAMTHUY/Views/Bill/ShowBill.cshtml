@@ -1,0 +1,110 @@
+﻿@model PHONGKHAMTHUY.Models.HomeModel
+@{
+    ViewBag.Title = "ShowBill";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Breadcrumb = "Hóa đơn / Chi tiết hóa đơn";
+    ViewBag.PageText = "Chi tiết hóa đơn";
+    int i3 = 1;
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="view-c1">
+                    <div style="text-align:center;">
+                        <div style="font-size:20px; font-weight:bold; color:#3E7770; text-transform:uppercase">Phiếu thanh toán</div>
+                        <div style="margin:10px auto;height:50px; overflow:hidden;">
+                            <img src="https://thu-y.vietmis.com/Pages/Image.aspx?t=bc&amp;v=HD230227096" style="max-width:200px;" alt="barcode type 39">
+                        </div>
+                        <div>HD @ViewBag.BillList.HOADON.IDHOADON</div>
+                    </div>
+                    <div style="padding:15px 0 5px;overflow:auto">
+                        <table class="tab_table" style="width:100%;">
+                            <tbody>
+                                <tr>
+                                    <td style="width:80px;">Họ tên</td>
+                                    <td class="s">:</td>
+                                    <td>
+                                        <strong>@ViewBag.BillList.KHACHHANG.HOTEN</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign="top">Điện thoại</td>
+                                    <td class="s" valign="top">:</td>
+                                    <td colspan="4" valign="top">@ViewBag.BillList.KHACHHANG.DIENTHOAI</td>
+                                </tr>
+                                <tr>
+                                    <td valign="top">Địa chỉ</td>
+                                    <td class="s" valign="top">:</td>
+                                    <td colspan="4" valign="top">@ViewBag.BillList.KHACHHANG.DIACHI</td>
+                                </tr>
+                                <tr>
+                                    <td valign="top" style="width:70px;">Vật nuôi</td>
+                                    <td class="s" valign="top">:</td>
+                                    <td valign="top">
+                                        <strong>@ViewBag.BillList.VATNUOI.TEN</strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="padding-bottom:10px">
+                        <table class="tab_table print_drugtable tbl-border" style="width:100%;">
+                            <tbody>
+                                <tr>
+                                    <th style="width: 10px; text-align: center;">#</th>
+                                    <th>Thuốc</th>
+                                    <th style="width: 50px; text-align:center;">Đơn giá</th>
+                                    <th style="width: 20px; text-align: center;">SL</th>
+                                    <th style="width: 70px; text-align: center;">Giảm giá</th>
+                                    <th style="width: 50px; text-align: center;">Số tiền</th>
+                                </tr>
+                                @foreach (var list in ViewBag.BillList.DSHOADON)
+                                {
+                                    <tr>
+                                        <td align="center">@i3</td>
+                                        <td>@list.TENTHUOC</td>
+                                        <td align="right">@list.GIATIEN.ToString("N0")</td>
+                                        <td align="center">@list.SOLUONG</td>
+                                        <td align="center">@list.GIAM.ToString("N0")</td>
+                                        <td align="right">@list.TONG.ToString("N0")</td>
+                                    </tr>
+                                    i3++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="padding:15px 0 5px; font-size:13px;">
+                        <div style="text-align:right; padding:3px 6px">
+                            Tổng thanh toán:
+                            <span style="font-weight:bold;display:inline-block;width:80px;text-align:right">@ViewBag.BillList.TONGCHUAGG.ToString("N0");</span>
+                        </div>
+                        <div style="text-align:right; padding:3px 6px">
+                            Tổng giảm giá:
+                            <span style="font-weight:bold;display:inline-block;width:80px;text-align:right">@ViewBag.BillList.TONGGIAMGIA.ToString("N0");</span>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div style="overflow:auto;background:#f1f1f1;padding:5px 3px;">
+                        <table class="tab_table" style="width:initial;float:right;">
+                            <tbody>
+                                <tr>
+                                    <td align="right" valign="top">Đã thanh toán</td>
+                                    <td style="width:10px">:</td>
+                                    <td align="right" valign="top" style="color:#090;font-weight:bold;">@ViewBag.BillList.HOADON.TONGTIEN.ToString("N0");</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="padding:15px 30px 0 30px; text-align:center; font-weight:bold;">
+                        <div>@ViewBag.BillList.TENNND: @ViewBag.BillList.TENTAIKHOAN</div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button onclick="printHoadon()" type="button" class="btn btn-primary">Print</button>
+
+    </div>
+</div>

@@ -1,0 +1,89 @@
+﻿@model List<PHONGKHAMTHUY.Models.CSLAppointmentSlipModel>
+@{
+    ViewBag.Title = "Danh sách phiếu chỉ định CSL";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Breadcrumb = "Phiếu chỉ định CSL";
+    ViewBag.PageText = "Danh sách phiếu chỉ định";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Phiếu chỉ định CSL</h4>
+                <div class="table-responsive">
+                    <table id="zero_config" class="table table-striped table-bordered no-wrap">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Vật nuôi</th>
+                                <th>Khách hàng</th>
+                                <th>Lâm sàn, chuẩn đoán</th>
+                                <th>Người lập</th>
+                                <th>Ngày tạo</th>
+                                <th>Các loại hạng mục xét nghiệm</th>
+                                <th>Lập hóa đơn</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var list in Model)
+                            {
+                                <tr>
+                                    <td>@list.PHIEUCHIDINH.IDPHIEUCHIDINH</td>
+                                    <td align="left">
+                                        <span style="color:blueviolet">@list.VATNUOI.TEN</span><br />
+                                        Loài: @list.VATNUOI.LOAI<br />
+                                        @list.VATNUOI.GIONG - @list.VATNUOI.TUOI tuổi
+                                    </td>
+                                    <td align="left">
+                                        <span style="color:blueviolet">@list.KHACHHANG.HOTEN</span><br />
+                                        Đ/c: @list.KHACHHANG.DIACHI
+                                    </td>
+                                    <td>@list.PHIEUCHIDINH.NOIDUNG</td>
+                                    <td>@list.TAIKHOAN.HOTEN</td>
+                                    <td>@(list.PHIEUCHIDINH.NGAYTAO.HasValue ? list.PHIEUCHIDINH.NGAYTAO.Value.ToString("dd/MM/yyyy") : "N/A")</td>
+                                    <td style="text-align: left;">
+                                        @foreach (var hm in list.LISTHANGMUC)
+                                        {
+                                            if ("CXN".Equals(hm.TRANGTHAI))
+                                            {
+                                                <a href="@Url.Action("GenerateTestResults", "CSLAppointmentSlip",new { id = hm.IDHANGMUC })"><i class="far fa-calendar-check" data-toggle="tooltip" title="Lập KQXN"></i></a>
+                                            }
+                                            else
+                                            {
+                                                <a href="@Url.Action("ShowResult", "CSLAppointmentSlip",new { id = hm.IDHANGMUC })"><i class="far fa-check-circle" data-toggle="tooltip" title="Xem KQXN"></i></a>
+                                            }
+                                            <span>@hm.LOAIHANGMUC</span>
+                                            <br />
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (list.PHIEUCHIDINH.TRANGTHAI == "CTT")
+                                        {
+                                            if (Session["auth"].ToString() == "AD" || Session["auth"].ToString() == "TN")
+                                            {
+                                                <a href="@Url.Action("AddBillPCD", "Bill", new { id = list.PHIEUCHIDINH.IDPHIEUCHIDINH })"><i class="icon-book-open"></i></a>
+                                            }
+                                            else
+                                            {
+                                                <a href="#"><i class="icon-book-open" data-toggle="tooltip" title="Bạn không có quyền thao tác"></i></a>
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            <i class="icon-book-open" data-toggle="tooltip" title="Đã thanh toán"></i>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

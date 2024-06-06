@@ -1,0 +1,103 @@
+﻿@model PHONGKHAMTHUY.Models.HomeModel
+@{
+    ViewBag.Title = "Chi tiết đơn thuốc";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Breadcrumb = "Chi tiết đơn thuốc";
+    ViewBag.PageText = "Chi tiết";
+    int i2 = 1;
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="mt-0 text-center">
+                    <strong>ĐƠN THUỐC</strong>
+                </h4>
+
+                <table class="tab_table">
+                    <tbody>
+                        <tr>
+                            <td style="width: 100px;">Khách hàng</td>
+                            <td>:</td>
+                            <td>
+                                <strong>@Model.KHACHHANG.HOTEN</strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px;">Điện thoại</td>
+                            <td>:</td>
+                            <td>@Model.KHACHHANG.DIENTHOAI</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px;">Địa chỉ</td>
+                            <td>:</td>
+                            <td>@Model.KHACHHANG.DIACHI</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px;">Vật nuôi</td>
+                            <td>:</td>
+                            <td valign="top">
+                                <strong><strong>@Model.VATNUOI.TEN</strong> - @Model.VATNUOI.LOAI - @Model.VATNUOI.GIONG - @Model.VATNUOI.TUOI</strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px;">Lý do khám</td>
+                            <td>:</td>
+                            <td>@Model.LICHHEN.LYDO</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table class="tab_table print_drugtable border-td2">
+                    <tbody>
+                        @foreach (var list in Model.LISTDANHSACHTHUOC)
+                        {
+                            var chiTiet = Model.LISTTHUOCVAVATTU.FirstOrDefault(ct => ct.TENTHUOCVT == list.TENTHUOC);
+                            if (chiTiet != null)
+                            {
+                                <tr>
+                                    <td align="center" valign="top">@i2.</td>
+                                    <td align="left" valign="top">
+                                        <div style="float:left;">
+                                            <strong>@chiTiet.TENTHUOCVT</strong>
+                                        </div>
+                                        <div style="float:right;text-align:right;">
+                                            <strong>@list.SOLUONG</strong> @chiTiet.DONVI
+                                        </div>
+                                        <div style="clear:both;">@chiTiet.CACHDUNG</div>
+                                        <hr />
+                                    </td>
+                                </tr>
+                            }
+                            i2++;
+                        }
+                    </tbody>
+                </table>
+
+                <div class="ioc66_foot">
+                    <div class="left">
+                        <div>
+                            <strong>Lời dặn:</strong>
+                            <div style="padding-bottom:5px;">@Model.DONTHUOC.LOIDAN</div>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div>Ngày @Model.DONTHUOC.NGAYTAO</div>
+                        <div style="padding-bottom:45px">
+                            <strong>@Model.NHOMNGUOIDUNG.TENNHOM</strong>
+                        </div>
+                        <div>
+                            <strong>@Model.TAIKHOAN.HOTEN</strong>
+                        </div>
+                    </div>
+                    <div style="clear: both;">
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+

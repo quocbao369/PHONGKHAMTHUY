@@ -7,13 +7,16 @@ using System.Web;
 
 namespace PHONGKHAMTHUY.Domain
 {
-    [Table("CHUANDOAN")]
-    public class CHUANDOAN
+    [Table("DONTHUOC")]
+    public class DONTHUOC
     {
         [Key]
-        public int IDCHUANDOAN { get; set; }
-        public string MACHUANDOAN { get; set; }
-        public string LOAICHUANDOAN { get; set; }
+        public int IDDONTHUOC { get; set; }
+        public int IDLICHKHAM { get; set; }
+        public int IDTAIKHOAN { get; set; }
+        public string MADSTHUOC { set; get; }
+        public string LOIDAN { set; get; }
+        public string TRANGTHAI { set; get; }
         public DateTime? NGAYTAO { get; set; }
         public DateTime? NGAYSUA { get; set; }
         public DateTime? NGAYXOA { get; set; }

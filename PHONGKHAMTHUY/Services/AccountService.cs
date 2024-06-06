@@ -46,6 +46,16 @@ namespace PHONGKHAMTHUY.Services
             return null;
         }
 
+        public string getAvatarAccount(string username)
+        {
+            var acc = db.TAIKHOAN.FirstOrDefault(u => u.TENDANGNHAP == username);
+            if (acc != null)
+            {
+                return acc.HINHDAIDIEN;
+            }
+            return null;
+        }
+
         // Hàm này dùng đê đăng ký tài khoản
         public string isRegister(RegisterModel model)
         {

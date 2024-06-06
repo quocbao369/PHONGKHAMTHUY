@@ -20,11 +20,17 @@ namespace PHONGKHAMTHUY.Connect
 
         public DbSet<DIENTIEN> DIENTIEN { get; set; }
         public DbSet<SINHHIEU> SINHHIEU { get; set; }
-        public DbSet<CHUANDOAN> CHUANDOAN { get; set; }
+        public DbSet<HANGMUC> HANGMUC { get; set; }
         public DbSet<PHIEUCHIDINH> PHIEUCHIDINH { get; set; }
 
         public DbSet<DICHVU> DICHVU { get; set; }
         public DbSet<CHIDINHCSL> CHIDINHCSL { get; set; }
+        public DbSet<KETQUAXN> KETQUAXN { get; set; }
+        public DbSet<DONTHUOC> DONTHUOC { get; set; }
+        public DbSet<DANHSACHTHUOC> DANHSACHTHUOC { get; set; }
+
+        public DbSet<HOADON> HOADON { get; set; }
+        public DbSet<DSHOADON> DSHOADON { get; set; }
 
     }
 }

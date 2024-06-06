@@ -70,12 +70,8 @@ namespace PHONGKHAMTHUY.Services
         }
 
         // Hàm này dùng để thêm mới vào cơ sở dữ liệu
-        public string addCustomer(KHACHHANG kh, string TEN, string LOAI, string GIONG, string GIOITINHVN, string TUOI, string MAUSAC, string CANNANG, string NGAYSINH)
+        public string addCustomer(KHACHHANG kh)
         {
-            if (TEN != "")
-            {
-                return "Thêm vật nuôi";
-            }
             if (kh.HOTEN == null)
             {
                 return "Vui lòng điền thông tin khách hàng";

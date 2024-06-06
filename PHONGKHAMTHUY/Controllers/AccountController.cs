@@ -32,6 +32,7 @@ namespace PHONGKHAMTHUY.Controllers
                     Session["nameAccount"] = name;
                     Session["idAccount"] = id;
                     Session["username"] = model.TENDANGNHAP;
+                    Session["avatar"] = account.getAvatarAccount(model.TENDANGNHAP);
                     return RedirectToAction("Index", "Home");
                 }
                 else

@@ -18,7 +18,7 @@ namespace PHONGKHAMTHUY.Services
             var obj = db.THUOCVAVATTU.Where(u => u.NGAYXOA == null).ToList();
             return obj;
         }
-
+        
         // Dùng để lấy danh sách danh mục
         public List<DANHMUC> getAllDirectory()
         {
@@ -37,7 +37,7 @@ namespace PHONGKHAMTHUY.Services
         public string addMedicine(THUOCVAVATTU thuoc)
         {
             if(thuoc.IDDANHMUC == 0|| thuoc.TENTHUOCVT == null|| thuoc.DONVI == null|| thuoc.GIABAN == 0|| thuoc.GIANHAP == 0|| thuoc.CACHDUNG == null||
-                thuoc.QUYCACH == null|| thuoc.SOLUONGTRENNGAY == null|| thuoc.THANHPHAN == null|| thuoc.GHICHU == null)
+                thuoc.QUYCACH == null|| thuoc.SOLUONGTRENNGAY == null|| thuoc.THANHPHAN == null|| thuoc.GHICHU == null || thuoc.TONKHO == 0)
             {
                 return "Vui lòng điền đầy đủ thông tin" ;
             }
@@ -133,6 +133,58 @@ namespace PHONGKHAMTHUY.Services
             {
                 return "Không tìm thấy thuốc/vật tư";
             }
+        }
+
+        // lấy danh sách danh mục thuốc
+        public List<DANHMUC> getDMthuoc()
+        {
+            var obj = db.DANHMUC.Where(u => u.NGAYXOA == null).ToList();
+            return obj;
+        }
+
+        // Thêm mới danh mục
+        public string addDM(string tendm)
+        {
+            if (tendm == null)
+            {
+                return "Vui lòng điền đầy đủ thông tin";
+            }
+            var dm = db.DANHMUC.FirstOrDefault(u => u.TENDANHMUC == tendm);
+            if (dm == null)
+            {
+                using (var dbContextTransaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        DateTime date = DateTime.Now;
+                        DANHMUC adddm = new DANHMUC();
+
+                        adddm.NGAYTAO = date;
+                        adddm.TENDANHMUC = tendm;
+
+
+                        db.DANHMUC.Add(adddm);
+                        db.SaveChanges();
+
+                        // Commit giao dịch nếu không có lỗi
+                        dbContextTransaction.Commit();
+
+                        return "Đã thêm thành công";
+                    }
+                    catch (Exception)
+                    {
+                        // Nếu có lỗi, rollback giao dịch
+                        dbContextTransaction.Rollback();
+                        return "Thêm thất bại";
+                    }
+                }
+            }
+            else
+            {
+                return "Danh mục này đã tồn tại";
+            }
+
+
         }
 
 

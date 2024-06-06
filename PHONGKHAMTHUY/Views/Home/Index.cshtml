@@ -1,7 +1,11 @@
-﻿@{
+﻿@model PHONGKHAMTHUY.Models.HomeModel
+
+@{
     ViewBag.Title = "Home Page";
     ViewBag.Breadcrumb = "";
     ViewBag.PageText = "Xin chào " + @Session["username"];
+    int i2 = 1;
+    int i3 = 1;
 }
 <div class="row">
     <div class="col-md-4">
@@ -24,13 +28,13 @@
         </a>
     </div>
     <div class="col-md-4">
-        <a href="#">
+        <a href="@Url.Action("ListCSL", "CSLAppointmentSlip")">
             <div class="card border-left-7 border-primary">
                 <div class="card-body">
                     <div class="d-flex d-lg-flex d-md-block align-items-center">
                         <div>
                             <div class="d-inline-flex align-items-center">
-                                <h2 class="text-dark mb-1 font-weight-medium">236</h2>
+                                <h2 class="text-dark mb-1 font-weight-medium">@ViewBag.CountPCD</h2>
                             </div>
                             <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Phiếu chỉ định CLS</h6>
                         </div>
@@ -42,190 +46,58 @@
             </div>
         </a>
     </div>
-    <div class="col-md-4">
-        <a href="#">
-            <div class="card border-left-7 border-danger">
-                <div class="card-body">
-                    <div class="d-flex d-lg-flex d-md-block align-items-center">
-                        <div>
-                            <div class="d-inline-flex align-items-center">
-                                <h2 class="text-dark mb-1 font-weight-medium">236</h2>
+    @if (Session["auth"].ToString() == "AD" || Session["auth"].ToString() == "TN")
+    {
+        <div class="col-md-4">
+            <a href="@Url.Action("ListBill", "Bill")">
+                <div class="card border-left-7 border-danger">
+                    <div class="card-body">
+                        <div class="d-flex d-lg-flex d-md-block align-items-center">
+                            <div>
+                                <div class="d-inline-flex align-items-center">
+                                    <h2 class="text-dark mb-1 font-weight-medium">@ViewBag.CountBill</h2>
+                                </div>
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Hóa đơn</h6>
                             </div>
-                            <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Hóa đơn</h6>
-                        </div>
-                        <div class="ml-auto mt-md-3 mt-lg-0">
-                            <span class="opacity-7 text-muted"><i data-feather="dollar-sign"></i></span>
+                            <div class="ml-auto mt-md-3 mt-lg-0">
+                                <span class="opacity-7 text-muted"><i data-feather="dollar-sign"></i></span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
+    }
     </div>
-</div>
 <div class="row">
     <div class="col-md-6 col-lg-8">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Các lô thuốc sắp hết hạn trong 60 ngày tới</h4>
+                <h4 class="card-title">Các lô thuốc sắp hết hạn trong 30 ngày tới</h4>
                 <div class="table-responsive" style="height: 61vh;">
                     <table class="table table-sm mt-4">
                         <thead class="thead-light">
                             <tr>
-                                <th scope="col">#</th>
+                                <th scope="col">Id</th>
                                 <th scope="col">Tên thuốc/Vật tư</th>
                                 <th scope="col">Hạn sử dụng</th>
                                 <th scope="col">SL tồn</th>
                                 <th scope="col">ĐVT</th>
                                 <th scope="col">Ngày nhập</th>
-                                <th scope="col">Mã phiếu nhập</th>
-                                <th scope="col">Mã lô</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>mdo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>twitter</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>mdo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>twitter</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>mdo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>twitter</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>mdo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>twitter</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>mdo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>twitter</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>mdo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>twitter</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>mdo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>twitter</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>mdo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>twitter</td>
-                            </tr>
+                            @foreach (var medicine in ViewBag.MedicineList)
+                            {
+                                <tr>
+                                    <th scope="row">@medicine.IDTHUOCVT</th>
+                                    <td>@medicine.TENTHUOCVT</td>
+                                    <td>@medicine.HSD</td>
+                                    <td>@medicine.TONKHO</td>
+                                    <td>@medicine.DONVI</td>
+                                    <td>@medicine.NGAYTAO.ToString("dd/MM/yyyy")</td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -246,43 +118,16 @@
                         <div class="ml-3 mt-2">
                             <h5 class="text-dark font-weight-medium mb-2">Đơn thuốc</h5>
                             <p class="font-14 mb-2 text-muted">
-                                Tên khách hàng:
-                            </p>
-                            <p class="font-14 mb-2 text-muted">
-                                Tên khách hàng:
+                                Tên khách hàng: @Model.KHACHHANG.HOTEN
                             </p>
                             <span class="font-weight-light font-14 text-muted">
-                                10 Minutes Ago
+                                @ViewBag.TimeMedical
                             </span>
                             <br />
                             <a href="javascript:void(0)" class="font-14 border-bottom" data-toggle="modal" data-target="#modal-1">Chi tiết</a>
                         </div>
                     </div>
-                    <div class="d-flex align-items-start border-left-line pb-3">
-                        <div>
-                            <a href="javascript:void(0)"
-                               class="btn btn-danger btn-circle mb-2 btn-item">
-                                <i data-feather="file-text"></i>
-                            </a>
-                        </div>
-                        <div class="ml-3 mt-2">
-                            <h5 class="text-dark font-weight-medium mb-2">
-                                Phiếu chỉ định
-                            </h5>
-                            <p class="font-14 mb-2 text-muted">
-                                Tên khách hàng:
-                            </p>
-                            <p class="font-14 mb-2 text-muted">
-                                Tên khách hàng:
-                            </p>
-                            <span class="font-weight-light font-14 text-muted">
-                                25 Minutes Ago
-                            </span>
-                            <br />
-                            <a href="javascript:void(0)" class="font-14 border-bottom" data-toggle="modal" data-target="#modal-2">Chi tiết</a>
-
-                        </div>
-                    </div>
+                    
                     <div class="d-flex align-items-start border-left-line pb-3">
                         <div>
                             <a href="javascript:void(0)" class="btn btn-cyan btn-circle mb-2 btn-item">
@@ -294,13 +139,10 @@
                                 Hóa đơn
                             </h5>
                             <p class="font-14 mb-2 text-muted">
-                                Tên khách hàng:
-                            </p>
-                            <p class="font-14 mb-2 text-muted">
-                                Tiền thanh toán:
+                                Tên khách hàng:@ViewBag.BillList.KHACHHANG.HOTEN
                             </p>
                             <span class="font-weight-light font-14 text-muted">
-                                2 Hours Ago
+                                @ViewBag.TimeMedical2
                             </span>
                             <br />
                             <a href="javascript:void(0)" class="font-14 border-bottom" data-toggle="modal" data-target="#modal-3">Chi tiết</a>
@@ -339,74 +181,75 @@
                                     <td style="width: 100px;">Khách hàng</td>
                                     <td>:</td>
                                     <td>
-                                        <strong>Đỗ Anh Trân</strong>
+                                        <strong>@Model.KHACHHANG.HOTEN</strong>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="width: 100px;">Điện thoại</td>
                                     <td>:</td>
-                                    <td>09131874713187</td>
+                                    <td>@Model.KHACHHANG.DIENTHOAI</td>
                                 </tr>
                                 <tr>
                                     <td style="width: 100px;">Địa chỉ</td>
                                     <td>:</td>
-                                    <td>Hà Giang	Hà Nam</td>
+                                    <td>@Model.KHACHHANG.DIACHI</td>
                                 </tr>
                                 <tr>
                                     <td style="width: 100px;">Vật nuôi</td>
                                     <td>:</td>
                                     <td valign="top">
-                                        <strong><strong>Quá</strong> (PE220930007)  - Mèo (Cat) - Khác - 5</strong>
+                                        <strong><strong>@Model.VATNUOI.TEN</strong> - @Model.VATNUOI.LOAI - @Model.VATNUOI.GIONG - @Model.VATNUOI.TUOI</strong>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="width: 100px;">Lý do khám</td>
                                     <td>:</td>
-                                    <td>Cắt chỉ</td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 100px;">Chẩn đoán</td>
-                                    <td>:</td>
-                                    <td>Cắt chỉ</td>
+                                    <td>@Model.LICHHEN.LYDO</td>
                                 </tr>
                             </tbody>
                         </table>
 
                         <table class="tab_table print_drugtable border-td2">
                             <tbody>
-                                <tr>
-                                    <td align="center" valign="top">1.</td>
-                                    <td align="left" valign="top">
-                                        <div style="float:left;">
-                                            <strong>Lesthionin C</strong>
-                                        </div>
-                                        <div style="float:right;text-align:right;">
-                                            <strong>1</strong> ml
-                                        </div>
-                                        <div style="clear:both;">Tiêm</div>
-                                        <hr />
-                                    </td>
-                                </tr>
+                                @foreach (var list in Model.LISTDANHSACHTHUOC)
+                                {
+                                    var chiTiet = Model.LISTTHUOCVAVATTU.FirstOrDefault(ct => ct.TENTHUOCVT == list.TENTHUOC);
+                                    if (chiTiet != null)
+                                    {
+                                        <tr>
+                                            <td align="center" valign="top">@i2.</td>
+                                            <td align="left" valign="top">
+                                                <div style="float:left;">
+                                                    <strong>@chiTiet.TENTHUOCVT</strong>
+                                                </div>
+                                                <div style="float:right;text-align:right;">
+                                                    <strong>@list.SOLUONG</strong> @chiTiet.DONVI
+                                                </div>
+                                                <div style="clear:both;">@chiTiet.CACHDUNG</div>
+                                                <hr />
+                                            </td>
+                                        </tr>
+                                    }
+                                    i2++;
+                                }
                             </tbody>
+
                         </table>
 
                         <div class="ioc66_foot">
                             <div class="left">
                                 <div>
                                     <strong>Lời dặn:</strong>
-                                    <div style="padding-bottom:5px;">hẹn chích ngừa bệnh hằng năm</div>
-                                </div>
-                                <div>
-                                    <strong>Ngày tái khám</strong>: 26/10/2023
+                                    <div style="padding-bottom:5px;">@Model.DONTHUOC.LOIDAN</div>
                                 </div>
                             </div>
                             <div class="right">
-                                <div>Ngày 25/10/2023</div>
+                                <div>Ngày @Model.DONTHUOC.NGAYTAO</div>
                                 <div style="padding-bottom:45px">
-                                    <strong>Bác sĩ</strong>
+                                    <strong>@Model.NHOMNGUOIDUNG.TENNHOM</strong>
                                 </div>
                                 <div>
-                                    <strong>BS. Bình</strong>
+                                    <strong>@Model.TAIKHOAN.HOTEN</strong>
                                 </div>
                             </div>
                             <div style="clear: both;">
@@ -422,39 +265,8 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<!-- Modal phiếu chỉ định -->
-<div id="modal-2" class="modal fade" tabindex="-1" role="dialog"
-     aria-labelledby="primary-header-modalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
-        <div class="modal-content modal-h-9">
-            <div class="modal-header modal-colored-header bg-primary">
-                <h4 class="modal-title" id="primary-header-modalLabel">
-                    Phiếu chỉ định CLS:
-                </h4>
-                <button type="button" class="close" data-dismiss="modal"
-                        aria-hidden="true">
-                    ×
-                </button>
-            </div>
-            <div class="modal-body">
-                <h5 class="mt-0">Primary Background</h5>
-                <p>
-                    Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-                    dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta
-                    ac consectetur ac, vestibulum at eros.
-                </p>
-                <p>
-                    Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-                    Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
-                    auctor.
-                </p>
-            </div>
-            <div class="modal-footer">
-                <button onclick="printModal2()" type="button" class="btn btn-primary">Print</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+
+
 <!-- Modal hóa đơn -->
 <div id="modal-3" class="modal fade" tabindex="-1" role="dialog"
      aria-labelledby="primary-header-modalLabel" aria-hidden="true">
@@ -478,7 +290,7 @@
                                 <div style="margin:10px auto;height:50px; overflow:hidden;">
                                     <img src="https://thu-y.vietmis.com/Pages/Image.aspx?t=bc&amp;v=HD230227096" style="max-width:200px;" alt="barcode type 39">
                                 </div>
-                                <div>HD230227096</div>
+                                <div>HD @ViewBag.BillList.HOADON.IDHOADON</div>
                             </div>
                             <div style="padding:15px 0 5px;overflow:auto">
                                 <table class="tab_table" style="width:100%;">
@@ -487,30 +299,25 @@
                                             <td style="width:80px;">Họ tên</td>
                                             <td class="s">:</td>
                                             <td>
-                                                <strong>Hoàng Chiến Thắng</strong>
+                                                <strong>@ViewBag.BillList.KHACHHANG.HOTEN</strong>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td valign="top">Điện thoại</td>
                                             <td class="s" valign="top">:</td>
-                                            <td colspan="4" valign="top">091723461723</td>
+                                            <td colspan="4" valign="top">@ViewBag.BillList.KHACHHANG.DIENTHOAI</td>
                                         </tr>
                                         <tr>
                                             <td valign="top">Địa chỉ</td>
                                             <td class="s" valign="top">:</td>
-                                            <td colspan="4" valign="top">Hải Dương</td>
+                                            <td colspan="4" valign="top">@ViewBag.BillList.KHACHHANG.DIACHI</td>
                                         </tr>
                                         <tr>
                                             <td valign="top" style="width:70px;">Vật nuôi</td>
                                             <td class="s" valign="top">:</td>
                                             <td valign="top">
-                                                <strong>lucky</strong>
+                                                <strong>@ViewBag.BillList.VATNUOI.TEN</strong>
                                             </td>
-                                        </tr>
-                                        <tr>
-                                            <td valign="top">Ghi chú</td>
-                                            <td class="s" valign="top">:</td>
-                                            <td colspan="4" valign="top"></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -523,79 +330,32 @@
                                             <th>Thuốc</th>
                                             <th style="width: 50px; text-align:center;">Đơn giá</th>
                                             <th style="width: 20px; text-align: center;">SL</th>
+                                            <th style="width: 70px; text-align: center;">Giảm giá</th>
                                             <th style="width: 50px; text-align: center;">Số tiền</th>
                                         </tr>
+                                        @foreach (var list in ViewBag.BillList.DSHOADON)
+                                        {
                                         <tr>
-                                            <td align="center">1</td>
-                                            <td>Bio Anazine (ml)</td>
-                                            <td align="right">4,000</td>
-                                            <td align="center">2</td>
-                                            <td align="right">8,000</td>
+                                            <td align="center">@i3</td>
+                                            <td>@list.TENTHUOC</td>
+                                            <td align="right">@list.GIATIEN.ToString("N0")</td>
+                                            <td align="center">@list.SOLUONG</td>
+                                            <td align="center">@list.GIAM.ToString("N0")</td>
+                                            <td align="right">@list.TONG.ToString("N0")</td>
                                         </tr>
-                                        <tr>
-                                            <td align="center">2</td>
-                                            <td>Ceftriaxone 1mg (ml)</td>
-                                            <td align="right">5,000</td>
-                                            <td align="center">2.50</td>
-                                            <td align="right">12,500</td>
-                                        </tr>
-                                        <tr>
-                                            <td align="center">3</td>
-                                            <td>Lesthionin C (ml)</td>
-                                            <td align="right">3,000</td>
-                                            <td align="center">3</td>
-                                            <td align="right">9,000</td>
-                                        </tr>
-                                        <tr>
-                                            <td align="center">4</td>
-                                            <td>Cal-Mg-B6 (ml)</td>
-                                            <td align="right">4,000</td>
-                                            <td align="center">2</td>
-                                            <td align="right">8,000</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div style="padding-bottom:10px">
-                                <table class="tab_table print_drugtable tbl-border" style="width:100%;">
-                                    <tbody>
-                                        <tr>
-                                            <th style="width: 10px; text-align: center;">#</th>
-                                            <th>Dịch vụ</th>
-                                            <th style="width: 50px; text-align:center;">Đơn giá</th>
-                                            <th style="width: 20px; text-align: center;">SL</th>
-                                            <th style="width: 50px; text-align: center;">Số tiền</th>
-                                        </tr>
-                                        <tr>
-                                            <td align="center">1</td>
-                                            <td>Khám bệnh &amp; chích thuốc 2 (lần)</td>
-                                            <td align="right">50,000</td>
-                                            <td align="center">1</td>
-                                            <td align="right">50,000</td>
-                                        </tr>
+                                        i3++;
+                                        }
                                     </tbody>
                                 </table>
                             </div>
                             <div style="padding:15px 0 5px; font-size:13px;">
-                                <div style="text-align:right; padding-right:6px">
-                                    Tổng tiền thuốc:
-                                    <span style="display:inline-block;width:80px">37,500</span>
-                                </div>
-                                <div style="text-align:right; padding-right:6px">
-                                    Tổng tiền dịch vụ:
-                                    <span style="display:inline-block;width:80px">50,000</span>
-                                </div>
-                                <div style="text-align:right; padding-right:6px; padding-top:10px;">
-                                    Tổng tiền:
-                                    <span style="font-weight:bold;display:inline-block;width:80px">87,500</span>
-                                </div>
                                 <div style="text-align:right; padding:3px 6px">
                                     Tổng thanh toán:
-                                    <span style="font-weight:bold;display:inline-block;width:80px;text-align:right">90,000</span>
+                                    <span style="font-weight:bold;display:inline-block;width:80px;text-align:right">@ViewBag.BillList.TONGCHUAGG.ToString("N0")</span>
                                 </div>
                                 <div style="text-align:right; padding:3px 6px">
-                                    <span style="display:inline-block;vertical-align:top;text-decoration:underline">Hình thức thanh toán:</span>
-                                    <span style="display:inline-block;min-width:80px;text-align:center">Tiền mặt<br></span>
+                                    Tổng giảm giá:
+                                    <span style="font-weight:bold;display:inline-block;width:80px;text-align:right">@ViewBag.BillList.TONGGIAMGIA.ToString("N0")</span>
                                 </div>
                                 <div class="clear"></div>
                             </div>
@@ -605,18 +365,13 @@
                                         <tr>
                                             <td align="right" valign="top">Đã thanh toán</td>
                                             <td style="width:10px">:</td>
-                                            <td align="right" valign="top" style="color:#090;font-weight:bold;">90,000</td>
-                                        </tr>
-                                        <tr>
-                                            <td align="right" valign="top">Còn lại</td>
-                                            <td style="width:10px">:</td>
-                                            <td align="right" valign="top" style="color:#9e9e03;font-weight:bold;">0</td>
+                                            <td align="right" valign="top" style="color:#090;font-weight:bold;">@ViewBag.BillList.HOADON.TONGTIEN.ToString("N0")</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                             <div style="padding:15px 30px 0 30px; text-align:center; font-weight:bold;">
-                                <div>Thu ngân: Nhân viên quầy 1</div>
+                                <div>@ViewBag.BillList.TENNND: @ViewBag.BillList.TENTAIKHOAN</div>
                                 <div class="clear"></div>
                             </div>
                         </div>

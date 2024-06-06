@@ -51,9 +51,9 @@ namespace PHONGKHAMTHUY.Controllers
 
         // Hàm này dùng để thêm mới khách hàng
         [HttpPost]
-        public ActionResult Add(KHACHHANG kh,string TEN, string LOAI, string GIONG, string GIOITINHVN, string TUOI, string MAUSAC, string CANNANG, string NGAYSINH)
+        public ActionResult Add(KHACHHANG kh)
         {
-            string message = customerService.addCustomer(kh, TEN, LOAI, GIONG, GIOITINHVN, TUOI, MAUSAC, CANNANG, NGAYSINH);
+            string message = customerService.addCustomer(kh);
             if (message != null)
             {
                 ViewBag.Message = message;

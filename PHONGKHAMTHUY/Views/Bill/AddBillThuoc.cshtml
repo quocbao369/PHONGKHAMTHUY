@@ -1,0 +1,156 @@
+﻿@model PHONGKHAMTHUY.Models.BillModel
+@{
+    ViewBag.Title = "Tạo hóa đơn thuốc";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Breadcrumb = "Tạo hóa đơn";
+    ViewBag.PageText = "Hóa đơn";
+}
+
+<div class="row">
+    <div class="col-8">
+        <form id="form" class="pl-3 pr-3" method="post" action="/Bill/AddBillThuoc/@Model.DONTHUOC.IDDONTHUOC" enctype="multipart/form-data">
+            <div class="card">
+                <div class="card-body" style="height: 80vh; overflow: auto;">
+                    <h4 class="text-center font-weight-bold text-danger">HÓA ĐƠN</h4><br />
+
+                    <div class="row">
+                        <div class="col-6">
+                            <h6>Họ tên: <span style="font-weight:bold">@Model.KHACHHANG.HOTEN</span></h6>
+                        </div>
+                        <div class="col-6">
+                            <h6>SĐT: <span style="font-weight:bold">@Model.KHACHHANG.DIENTHOAI</span></h6>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-2"><h6>Địa chỉ:</h6></div>
+                        <div class="col-10 text-center"><h6 class="font-weight-bold"> @Model.KHACHHANG.DIACHI</h6></div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <h6><span style="color:red;">Vật nuôi:   </span><span style=" text-decoration: underline">@Model.VATNUOI.TEN</span></h6>
+                            <input type="hidden" name="IDVATNUOI" value="@Model.VATNUOI.IDVATNUOI" />
+                        </div>
+                    </div>
+
+                    <hr />
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="itemTable">
+                            <thead>
+                                <tr>
+                                    <th width="10px">#</th>
+                                    <th>Hạng mục</th>
+                                    <th width="80px">SL</th>
+                                    <th width="100px">Đơn giá</th>
+                                    <th width="100px">Giảm</th>
+                                    <th width="150px">Tổng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var list in Model.LISTDSDONTHUOC)
+                                {
+                                    var thuocDetail = Model.LISTTHUOCVAVATTU.FirstOrDefault(t => t.TENTHUOCVT == list.TENTHUOC);
+                                    var giaTien = thuocDetail != null ? thuocDetail.GIABAN : 0;
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            @list.TENTHUOC
+                                            <input type="hidden" name="TENTHUOC" value="@list.TENTHUOC"/>
+                                        </td>
+                                        <td><input type="text" value="1" class="quantity form-control" name="SOLUONG" /></td>
+                                        <td><input type="text" value="@giaTien" class="price form-control" name="GIATIEN" /></td>
+                                        <td><input type="text" value="0" class="discount form-control" name="GIAM" /></td>
+                                        <td class="item-total"></td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <td align="right" colspan="4">Tổng cộng:</td>
+                                    <td id="total-discount">0</td>
+                                    <td id="grand-total">0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-8"></div>
+                        <div class="col-4">
+                            <div class="row">
+                                <h6>Tổng giảm: </h6>
+                                <h6 style="font-weight:bold" id="total-discount2">0</h6>
+                            </div>
+                            <div class="row">
+                                <h6>Số tiền thanh toán: </h6>
+                                <div style="text-align:right">
+                                    <h6 style="font-weight:bold;color:red" id="grand-total2"></h6>
+                                    <input type="hidden" name="TONGTIEN" id="tongtien" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <h6 id="currentDate" class="text-center font-italic"></h6>
+                            <h6 class="text-center font-weight-bold">@Session["nameauth"]</h6>
+                            <br />
+                            <br />
+                            <h6 class="text-center">@Session["nameAccount"]</h6>
+                        </div>
+                    </div>
+
+                </div>
+                @if (Model.LISTDSDONTHUOC.Count == 0)
+                {
+                    <button type="button" disabled class="btn waves-effect waves-light btn-warning">Hóa đơn đã thanh toán</button>
+                }
+                else
+                {
+                    <button type="submit" class="btn waves-effect waves-light btn-outline-success">Thanh toán</button>
+                }
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function calculateTotals() {
+        const table = document.getElementById('itemTable');
+        const rows = table.querySelectorAll('tbody tr');
+        let totalDiscount = 0;
+        let grandTotal = 0;
+
+        rows.forEach((row, index) => {
+            if (index < rows.length - 1) { // Skip the last row which is the total row
+                const quantity = parseFloat(row.querySelector('.quantity').value) || 0;
+                const price = parseFloat(row.querySelector('.price').value) || 0;
+                const discount = parseFloat(row.querySelector('.discount').value) || 0;
+                const total = (quantity * price);
+
+                row.querySelector('.item-total').textContent = formatNumber(Math.round(total));
+
+                totalDiscount += discount;
+                grandTotal += total;
+            }
+        });
+
+        document.getElementById('total-discount').textContent = formatNumber(Math.round(totalDiscount));
+        document.getElementById('total-discount2').textContent = formatNumber(Math.round(totalDiscount));
+        document.getElementById('grand-total').textContent = formatNumber(Math.round(grandTotal));
+        document.getElementById('grand-total2').textContent = formatNumber(Math.round(grandTotal - totalDiscount));
+        document.getElementById('tongtien').value = Math.round(grandTotal - totalDiscount);
+    }
+
+    // Add event listeners to all input fields
+    document.querySelectorAll('.quantity, .price, .discount').forEach(input => {
+        input.addEventListener('input', calculateTotals);
+    });
+
+    function formatNumber(num) {
+        return num.toLocaleString('vi-VN');
+    }
+
+    // Call the function to calculate the totals when the page loads
+    window.onload = calculateTotals;
+</script>
+

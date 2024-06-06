@@ -104,6 +104,32 @@ function printModal3() {
             iframe.contentWindow.print();
 };
 
+function printHoadon() {
+    // Lấy nội dung của card và các phần tử liên quan
+    var cardContent = document.querySelector('.card').innerHTML;
+
+
+    // Tạo một iframe ẩn
+    var iframe = document.createElement('iframe');
+    iframe.style.height = '0';
+    iframe.style.width = '0';
+    iframe.style.position = 'absolute';
+    document.body.appendChild(iframe);
+    var doc = iframe.contentDocument || iframe.contentWindow.document;
+
+    // Thêm nội dung của card vào iframe
+    doc.write('<!DOCTYPE html><html><head><title>PHÒNG KHÁM THÚ Y</title>');
+    doc.write('<link href="../../Public/dist/css/style.min.css" rel="stylesheet">');
+    doc.write('<link href="../../Public/dist/css/styleCustom.css" rel="stylesheet">');
+    doc.write('</head><body><div class="card">');
+    doc.write(cardContent);
+    doc.write('</div></body></html>');
+    doc.close();
+
+    // Gọi phương thức print trên iframe
+    iframe.contentWindow.print();
+};
+
 
 
 
@@ -238,6 +264,21 @@ function showDataLichkham(id) {
             $('#modal-edit #ten').text("Tên: "+data.PET.TEN);
             $('#modal-edit #tuoi').text("Tuổi: "+data.PET.TUOI);
             $('#modal-edit #loai').text("Loài: "+data.PET.LOAI);            
+        },
+        error: function () {
+            alert('Đã xảy ra lỗi khi lấy dữ liệu tài khoản.');
+        }
+    });
+}
+
+// lấy thông tin thuốc
+function getMedicineDetails(medicineId) {
+    // Thay URL này bằng URL API thực tế của bạn
+    $.ajax({
+        url: '/MedicalExamination/getMedicineDetails',
+        data: { id: medicineId },
+        success: function (data) {
+            addNewFieldMedical(data);
         },
         error: function () {
             alert('Đã xảy ra lỗi khi lấy dữ liệu tài khoản.');
@@ -436,6 +477,160 @@ function addNewField() {
     container.insertAdjacentHTML('beforeend', newField);
 }
 
+// Thêm mới trong Phiếu chỉ định
+function addNewFieldMedical(data) {
+    var container = document.getElementById('danhsachthuoc');
+
+    // Kiểm tra nếu giá trị đã tồn tại
+    var inputs = container.querySelectorAll('input[name="DSTHUOC"]');
+    for (var i = 0; i < inputs.length; i++) {
+        if (inputs[i].value === data.TENTHUOCVT) {
+            alert("Giá trị này đã tồn tại!");
+            return;
+        }
+    }
+
+    var count = inputs.length + 1;
+
+    var newField = `
+         <div id="thuoc-${count}" class="row">
+                        <div class="col-6">
+                            <div class="row">
+                                <h6 class="ml-3 mt-3">${count}.</h6>
+                                <div class="col">
+                                    <input class="form-control border-right border-top-0 border-right-0 border-left-0" value="${data.TENTHUOCVT}"
+                                           type="text" id="dsthuoc${count}" maxlength="500" name="DSTHUOC" required placeholder="Nhập tên thuốc">
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <h6 class="ml-3 mt-3 mr-2">Số lượng: </h6>
+                                <input class="form-control border-right border-top-0 border-right-0 border-left-0 w-25 mr-3"
+                                       type="text" id="soluong" maxlength="500" name="SOLUONG" required value="1">
+                                <input class="form-control border-right border-top-0 border-right-0 border-left-0 w-25"
+                                       type="text" id="donvi" maxlength="500" name="DONVI" required value="${data.DONVI}">
+                                <a onclick="removeField('thuoc-${count}')"><i class="icon-close" style="cursor:pointer"></i></a>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="row">
+                                <h6 class="ml-3 mt-3">Cách dùng:</h6>
+                                <input class="form-control border-right border-top-0 border-right-0 border-left-0 w-75" value="${data.CACHDUNG}"
+                                       type="text" id="cachdung" maxlength="500" name="CACHDUNG" required>
+                            </div>
+                        </div>
+                    </div>
+    `;
+
+    container.insertAdjacentHTML('beforeend', newField);
+}
+
+// Thêm mới trong Kê đơn
+function addNewField2() {
+    var container = document.getElementById('danhsachthuoc');
+    var count = container.children.length + 1;
+
+    var newField = `
+        <div id="thuoc-${count}" class="row">
+                        <div class="col-6">
+                            <div class="row">
+                                <h6 class="ml-3 mt-3">${count}.</h6>
+                                <div class="col">
+                                    <input class="form-control border-right border-top-0 border-right-0 border-left-0"
+                                           type="text" id="dsthuoc${count}" maxlength="500" name="DSTHUOC" required placeholder="Nhập tên thuốc">
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <h6 class="ml-3 mt-3 mr-2">Số lượng: </h6>
+                                <input class="form-control border-right border-top-0 border-right-0 border-left-0 w-25 mr-3"
+                                       type="text" id="soluong" maxlength="500" name="SOLUONG" required value="1">
+                                <input class="form-control border-right border-top-0 border-right-0 border-left-0 w-25"
+                                       type="text" id="donvi" maxlength="500" name="DONVI" required value="viên">
+                                <a onclick="removeField('thuoc-${count}')"><i class="icon-close" style="cursor:pointer"></i></a>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="row">
+                                <h6 class="ml-3 mt-3">Cách dùng:</h6>
+                                <input class="form-control border-right border-top-0 border-right-0 border-left-0 w-75"
+                                       type="text" id="cachdung" maxlength="500" name="CACHDUNG" required>
+                            </div>
+                        </div>
+                    </div>
+    `;
+
+    container.insertAdjacentHTML('beforeend', newField);
+}
+
+function removeField(id) {
+    var field = document.getElementById(id);
+    if (field) {
+        field.remove();
+    }
+}
+
+$(document).ready(function () {
+    $('#save-dm').on('click', function () {
+        var id = $(this).data('id');
+        var updatedData = {};
+
+        $(this).closest('tr').find('.editable').each(function () {
+            var field = $(this).data('field');
+            var value = $(this).text();
+            updatedData[field] = value;
+        });
+
+        $.ajax({
+            url: '/Medicine/UpdateDm',
+            type: 'POST',
+            data: {
+                id: id,
+                updatedData: updatedData
+            },
+            success: function (response) {
+                alert('Sửa thành công');
+            },
+            error: function (xhr, status, error) {
+                alert('Sửa thất bại');
+            }
+        });
+    });
+});
+
+$(document).ready(function () {
+    $('#save-cdcsl').on('click', function () {
+        var id = $(this).data('id');
+        var updatedData = {};
+
+        $(this).closest('tr').find('.editable').each(function () {
+            var field = $(this).data('field');
+            var value = $(this).text();
+            updatedData[field] = value;
+        });
+
+        $.ajax({
+            url: '/CSLAppointmentSlip/UpdateCSL',
+            type: 'POST',
+            data: {
+                id: id,
+                updatedData: updatedData
+            },
+            success: function (response) {
+                alert('Sửa thành công');
+            },
+            error: function (xhr, status, error) {
+                alert('Sửa thất bại');
+            }
+        });
+    });
+});
 
 function copyText(iconElement) {
     // Lấy phần tử cha của biểu tượng sao chép (đó là phần tử td)

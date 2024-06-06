@@ -1,0 +1,77 @@
+﻿@model PHONGKHAMTHUY.Models.CSLAppointmentSlipModel
+@{
+    ViewBag.Title = "Xem chi tiết kết quả xét nghiệm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Breadcrumb = "Kết quả xét nghiệm / Chi tiết kết quả xét nghiệm";
+    ViewBag.PageText = "Chi tiết kết quả xét nghiệm";
+}
+
+<div class="row">
+    <div class="col-5">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title text-center font-weight-bold">THÔNG TIN KHÁCH HÀNG VÀ VẬT NUÔI</h4><br />
+                <div class="row">
+                    <div class="col-6">
+                        <h5 class="font-14 mb-2 text-muted">Tên khách hàng:</h5><h5> @Model.KHACHHANG.HOTEN</h5>
+                        <h5 class="font-14 mb-2 text-muted">SĐT:</h5><h5> @Model.KHACHHANG.DIENTHOAI</h5>
+                        <h5 class="font-14 mb-2 text-muted">Đ/c:</h5><h5> @Model.KHACHHANG.DIACHI</h5>
+                    </div>
+                    <div class="col-6">
+                        <h5 class="font-14 mb-2 text-muted">Tên vật nuôi:</h5><h5> @Model.VATNUOI.TEN</h5>
+                        <h5 class="font-14 mb-2 text-muted">Loài:</h5><h5> @Model.VATNUOI.LOAI</h5>
+                        <h5 class="font-14 mb-2 text-muted">Giống:</h5><h5> @Model.VATNUOI.GIONG</h5>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-7">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title text-center">KẾT QUẢ <span class="text-uppercase">@Model.HANGMUC.LOAIHANGMUC</span></h4>
+                <form id="form" class="pl-3 pr-3" method="post" action="/CSLAppointmentSlip/UpdateResult/@Model.HANGMUC.IDHANGMUC" enctype="multipart/form-data">
+                    <input type="hidden" name="IDHANGMUC" value="@Model.HANGMUC.IDHANGMUC" />
+                    <input type="hidden" name="MAHANGMUC" value="@Model.PHIEUCHIDINH.MAHANGMUC" />
+                    <div class="form-group w-50">
+                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate" style="text-decoration:underline">Phương pháp thử nghiệm</h6>
+                        <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
+                               type="text" id="phuongphapthunghiem" maxlength="50" name="PHUONGPHAPTHUNGHIEM" value="@Model.KETQUAXN.PHUONGPHAPTHUNGHIEM" required>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group w-100">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Ngày nhận</h6>
+                                <input class="form-control"
+                                       type="datetime-local" id="ngaytao" name="NGAYTAO" value="@(Model.HANGMUC.NGAYTAO.HasValue ? Model.HANGMUC.NGAYTAO.Value.ToString("yyyy-MM-ddTHH:mm") : "N/A")" required>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group w-100">
+                                <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Ngày trả</h6>
+                                <input class="form-control"
+                                       type="datetime-local" id="ngaytra" name="NGAYTRA" value="@(Model.KETQUAXN.NGAYTRA.HasValue ? Model.KETQUAXN.NGAYTRA.Value.ToString("yyyy-MM-ddTHH:mm") : "N/A")" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate mb-3" style="text-decoration:underline">Kết quả xét nghiệm</h6>
+                        <textarea class="form-control" rows="3" style="height: 150px;" name="KETQUA" id="ketqua" required>@Model.KETQUAXN.KETQUA</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate mb-3" style="text-decoration:underline">Kết luận</h6>
+                        <textarea class="form-control" rows="3" style="height: 150px;" name="KETLUAN" id="ketluan" required>@Model.KETQUAXN.KETLUAN</textarea>
+                    </div>
+                    <div class="col-7 offset-10">
+                        <button id="btnAdd" type="submit" class="btn btn-primary custom-radius">Cập nhật</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

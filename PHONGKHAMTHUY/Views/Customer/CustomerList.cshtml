@@ -1,7 +1,7 @@
 ﻿@model List<PHONGKHAMTHUY.Domain.KHACHHANG>
 
 @{
-    ViewBag.Title = "CustomerList";
+    ViewBag.Title = "Danh sách khách hàng";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Breadcrumb = "Danh sách khách hàng";
     ViewBag.PageText = "Danh sách khách hàng";
@@ -190,7 +190,7 @@
                             <div class="form-group">
                                 <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Tên khách hàng</h6>
                                 <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
-                                       type="text" id="hoten" maxlength="10" name="HOTEN" required>
+                                       type="text" id="hoten" maxlength="50" name="HOTEN" required>
                             </div>
 
                             <div class="form-group ">
@@ -216,80 +216,6 @@
                                 </select>
                             </div>
 
-                        </div>
-                    </div>
-
-                    <div class="card" id="MSTTK">
-                        <div class="card-header font-weight-bold w-30 m-3 bg-info text-white ml" style="border-radius: 10px; margin-left: -10px !important;">
-                            Thêm mới vật nuôi
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-6">
-
-                                    <div class="form-group">
-                                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Tên vật nuôi</h6>
-                                        <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
-                                               type="text" id="tenvn" maxlength="50" name="TEN">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Loài</h6>
-                                        <select class="custom-select mr-sm-2 border-primary border-top-0 border-right-0 border-left-0 text-dark"
-                                                id="loai" name="LOAI">
-                                            <option value="0">Lựa chọn</option>
-                                            <option value="1">Chó</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Giống</h6>
-                                        <select class="custom-select mr-sm-2 border-primary border-top-0 border-right-0 border-left-0 text-dark"
-                                                id="giong" name="GIONG">
-                                            <option value="0">Lựa chọn</option>
-                                            <option value="1">Pig bull</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group w-40">
-                                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Giới tính</h6>
-                                        <select class="custom-select mr-sm-2 border-primary border-top-0 border-right-0 border-left-0 text-dark"
-                                                id="gioitinh" name="GIOITINHVN">
-                                            <option value="0">Lựa chọn</option>
-                                            <option value="Đực">Đực</option>
-                                            <option value="Cái">Cái</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-6">
-                                    <div class="form-group">
-                                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Tuổi</h6>
-                                        <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
-                                               type="number" id="tuoi" maxlength="50" name="TUOI">
-                                    </div>
-                                    <div class="form-group">
-                                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Màu sắc</h6>
-                                        <select class="custom-select mr-sm-2 border-primary border-top-0 border-right-0 border-left-0 text-dark"
-                                                id="mausac" name="MAUSAC">
-                                            <option value="0">Lựa chọn</option>
-                                            <option value="Trắng">Trắng</option>
-                                            <option value="Đen">Đen</option>
-                                            <option value="Vàng">Vàng</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Cân nặng</h6>
-                                        <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
-                                               type="number" id="cannang" maxlength="50" name="CANNANG">
-                                    </div>
-                                    <div class="form-group">
-                                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Ngày sinh</h6>
-                                        <input class="form-control border-primary border-top-0 border-right-0 border-left-0"
-                                               type="date" id="ngaysinh" maxlength="50" name="NGAYSINH">
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <button id="btnAdd" type="submit" class="btn btn-primary d-none"></button>
